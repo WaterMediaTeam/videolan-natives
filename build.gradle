@@ -5,7 +5,7 @@ plugins {
 
 base {
     archivesName = id
-    libsDirectory = new File("outputjars/")
+    libsDirectory = new File("buildjars/")
 }
 
 java {

@@ -9,5 +9,11 @@ buildNumber.properties
 .mvn/timing.properties
 *.iml
 
+# idea
+build
+.idea
+.gradle
+outputjars
+
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar

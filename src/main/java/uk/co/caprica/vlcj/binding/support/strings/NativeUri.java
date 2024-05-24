@@ -19,11 +19,8 @@
 
 package uk.co.caprica.vlcj.binding.support.strings;
 
-import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil;
-
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Functions that deal with URI's that are passed to the native LibVlc library.
@@ -48,22 +45,12 @@ public final class NativeUri {
      *
      * @param uri URI
      * @return the original URI if no encoding is required, or a percent-encoded ASCII file URI
+     * @deprecated
      */
-    public static String encodeUri(String uri) {
-        String result = uri;
-        if (containsUnicode(uri)) {
-            try {
-                URI validUri = new URI(uri);
-                if (validUri.getScheme() == null) {
-                    result = toLocalFileUri(uri);
-                }
-            }
-            catch (URISyntaxException e) {
-                if (RuntimeUtil.isWindows()) {
-                    result = toLocalFileUri(uri);
-                }
-            }
-        }
+    @Deprecated
+    public static String encodeUri(URL uri) {
+        String result = uri.toString();
+        if (result.startsWith("file:/")) result = result.replaceFirst("file:/", "file:///");
         return result;
     }
 
@@ -81,6 +68,7 @@ public final class NativeUri {
      * Does a String contain any Unicode characters?
      *
      * @param value string to test
+     * @deprecated See <a href="https://github.com/caprica/vlcj/issues/1142">#1142</a>
      * @return <code>true</code> if the supplied String contains any Unicode characters; <code>false</code> if it does not
      */
     private static boolean containsUnicode(String value) {
@@ -115,16 +103,20 @@ public final class NativeUri {
      * "file://localhost/path/file.ext", so we return it as "file:///path/file.ext" instead).
      *
      * @param value value to encode
+     * @deprecated See <a href="https://github.com/caprica/vlcj/issues/1142">#1142</a>
      * @return encoded value
      */
     private static String toLocalFileUri(String value) {
+        value = value.replaceFirst("file:(/{1,3})", "");
         String asciiString = new File(value).toURI().toASCIIString();
         if (asciiString.startsWith("file://")) {
             // URI already starts with "file://", so simply return the ASCII string
             return asciiString;
         } else {
             // URI therefore starts by so replace the bad prefix with a proper one
-            return asciiString.replaceFirst("file:/", "file:///");
+            String url = asciiString.replaceFirst("file:/", "file:///");
+            if (!url.startsWith("file:///")) url = "file:///" + url;
+            return url;
         }
     }
 

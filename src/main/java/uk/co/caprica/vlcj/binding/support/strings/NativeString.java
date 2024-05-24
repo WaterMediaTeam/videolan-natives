@@ -20,8 +20,7 @@
 package uk.co.caprica.vlcj.binding.support.strings;
 
 import com.sun.jna.Pointer;
-
-import static uk.co.caprica.vlcj.binding.lib.LibVlc.libvlc_free;
+import uk.co.caprica.vlcj.binding.lib.LibVlc;
 
 /**
  * Encapsulation of access to native strings.
@@ -57,11 +56,11 @@ public final class NativeString {
      * @param pointer pointer to native string, may be <code>null</code>
      * @return string, or <code>null</code> if the pointer was <code>null</code>
      */
-    public static final String copyAndFreeNativeString(Pointer pointer) {
+    public static String copyAndFreeNativeString(Pointer pointer) {
         if(pointer != null) {
             // Pointer.getString copies native memory to a Java String
             String result = pointer.getString(0);
-            libvlc_free(pointer);
+            LibVlc.libvlc_free(pointer);
             return result;
         }
         else {
@@ -77,7 +76,7 @@ public final class NativeString {
      * @param pointer pointer to native string, may be <code>null</code>
      * @return string, or <code>null</code> if the pointer was <code>null</code>
      */
-    public static final String copyNativeString(Pointer pointer) {
+    public static String copyNativeString(Pointer pointer) {
         if(pointer != null) {
             // Pointer.getString copies native memory to a Java String
             return pointer.getString(0);

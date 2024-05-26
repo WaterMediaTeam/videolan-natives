@@ -17,7 +17,7 @@
  * Copyright 2009-2019 Caprica Software Limited.
  */
 
-package uk.co.caprica.vlcj.binding.support.types;
+package uk.co.caprica.vlcj.binding.lib.types;
 
 import com.sun.jna.IntegerType;
 import com.sun.jna.Native;
@@ -25,9 +25,7 @@ import com.sun.jna.Native;
 /**
  * Native size_t type.
  */
-@SuppressWarnings("serial")
 public class size_t extends IntegerType {
-
     public size_t() {
         this(0);
     }

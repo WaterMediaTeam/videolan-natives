@@ -1,6 +1,7 @@
 package uk.co.caprica.vlcj;
 
 import com.sun.jna.Platform;
+import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Kernel32;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,7 +9,10 @@ import uk.co.caprica.vlcj.binding.internal.libvlc_instance_t;
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.binding.lib.LibC;
 import uk.co.caprica.vlcj.binding.lib.LibVlc;
+import uk.co.caprica.vlcj.binding.lib.LibX11;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 
@@ -52,5 +56,49 @@ public class VideoLan4J {
     public static void checkClassLoader(ClassLoader classLoader) {
         Thread t = Thread.currentThread();
         if (t.getContextClassLoader() == null) t.setContextClassLoader(classLoader);
+    }
+
+    /**
+     * Get a String from a native string pointer, freeing the native string pointer when done.
+     * <p>
+     * If the native string pointer is not freed then a native memory leak will occur.
+     * <p>
+     * Use this method if the native string type is "char*", i.e. lacking the "const" modifier.
+     *
+     * @param pointer pointer to native string, may be <code>null</code>
+     * @return string, or <code>null</code> if the pointer was <code>null</code>
+     */
+    public static String copyAndFreeNativeString(Pointer pointer) {
+        try {
+            return copyNativeString(pointer);
+        } finally {
+            freeNativeString(pointer);
+        }
+    }
+
+    /**
+     * frees the native string pointer
+     * <p>
+     * If the native string pointer is not freed then a native memory leak will occur.
+     * <p>
+     * Use this method if the native string type is "char*", i.e. lacking the "const" modifier.
+     * @param pointer pointer to native string, may be <code>null</code>
+     */
+    public static void freeNativeString(Pointer pointer) {
+        if (pointer != null) {
+            LibVlc.libvlc_free(pointer);
+        }
+    }
+
+    /**
+     * Copy a String from a native string pointer, without freeing the native pointer.
+     * <p>
+     * Use this method if the native string type is "const char*".
+     *
+     * @param pointer pointer to native string, may be <code>null</code>
+     * @return string, or <code>null</code> if the pointer was <code>null</code>
+     */
+    public static String copyNativeString(Pointer pointer) {
+        return (pointer != null) ? pointer.getString(0) : null;
     }
 }

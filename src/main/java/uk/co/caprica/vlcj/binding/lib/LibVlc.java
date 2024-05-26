@@ -21,7 +21,7 @@ package uk.co.caprica.vlcj.binding.lib;
 
 import com.sun.jna.Native;
 import com.sun.jna.StringArray;
-import uk.co.caprica.vlcj.binding.support.runtime.RuntimeUtil;
+import uk.co.caprica.vlcj.VideoLan4J;
 import uk.co.caprica.vlcj.binding.internal.libvlc_audio_cleanup_cb;
 import uk.co.caprica.vlcj.binding.internal.libvlc_audio_drain_cb;
 import uk.co.caprica.vlcj.binding.internal.libvlc_audio_flush_cb;
@@ -64,8 +64,8 @@ import uk.co.caprica.vlcj.binding.internal.libvlc_unlock_callback_t;
 import uk.co.caprica.vlcj.binding.internal.libvlc_video_cleanup_cb;
 import uk.co.caprica.vlcj.binding.internal.libvlc_video_format_cb;
 import uk.co.caprica.vlcj.binding.internal.libvlc_video_viewpoint_t;
-import uk.co.caprica.vlcj.binding.support.types.size_tByReference;
-import uk.co.caprica.vlcj.binding.support.types.size_t;
+import uk.co.caprica.vlcj.binding.lib.types.size_tByReference;
+import uk.co.caprica.vlcj.binding.lib.types.size_t;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -96,7 +96,7 @@ import com.sun.jna.ptr.PointerByReference;
 public final class LibVlc {
 
     static {
-        Native.register(RuntimeUtil.getLibVlcLibraryName());
+        Native.register(VideoLan4J.LIBVLC_NAME);
     }
 
     private LibVlc() {

@@ -17,7 +17,7 @@
  * Copyright 2009-2019 Caprica Software Limited.
  */
 
-package uk.co.caprica.vlcj.binding.support.types;
+package uk.co.caprica.vlcj.binding.lib.types;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -33,5 +33,4 @@ public class size_tByReference extends ByReference {
         Pointer pointer = getPointer();
         return new size_t(Native.SIZE_T_SIZE == 8 ? pointer.getLong(0) : pointer.getInt(0));
     }
-
 }

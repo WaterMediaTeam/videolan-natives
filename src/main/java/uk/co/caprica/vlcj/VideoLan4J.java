@@ -9,10 +9,7 @@ import uk.co.caprica.vlcj.binding.internal.libvlc_instance_t;
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.binding.lib.LibC;
 import uk.co.caprica.vlcj.binding.lib.LibVlc;
-import uk.co.caprica.vlcj.binding.lib.LibX11;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.net.URL;
 

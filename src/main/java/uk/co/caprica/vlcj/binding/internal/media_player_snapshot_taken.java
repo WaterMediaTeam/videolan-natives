@@ -33,7 +33,7 @@ public class media_player_snapshot_taken extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("filename"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("filename");
 
     /**
      *

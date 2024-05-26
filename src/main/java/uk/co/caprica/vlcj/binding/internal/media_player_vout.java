@@ -33,7 +33,7 @@ public class media_player_vout extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("new_count"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("new_count");
 
     /**
      *

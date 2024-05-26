@@ -33,7 +33,7 @@ public class media_subitem_added extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("new_child"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("new_child");
 
     /**
      *

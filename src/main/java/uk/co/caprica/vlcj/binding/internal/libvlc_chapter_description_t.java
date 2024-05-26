@@ -31,7 +31,7 @@ import com.sun.jna.Structure;
  */
 public class libvlc_chapter_description_t extends Structure {
 
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("i_time_offset", "i_duration", "psz_name"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("i_time_offset", "i_duration", "psz_name");
 
     public static class ByReference extends libvlc_chapter_description_t implements Structure.ByReference {}
 

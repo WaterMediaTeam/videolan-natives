@@ -33,7 +33,7 @@ public class media_player_audio_device extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("device"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("device");
 
     /**
      *

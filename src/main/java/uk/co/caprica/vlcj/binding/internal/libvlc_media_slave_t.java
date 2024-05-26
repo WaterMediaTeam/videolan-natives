@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class libvlc_media_slave_t extends Structure {
 
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("psz_uri", "i_type", "i_priority"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("psz_uri", "i_type", "i_priority");
 
     public libvlc_media_slave_t() {
     }

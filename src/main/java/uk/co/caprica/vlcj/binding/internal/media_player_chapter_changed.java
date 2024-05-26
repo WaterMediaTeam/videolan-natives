@@ -33,7 +33,7 @@ public class media_player_chapter_changed extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("new_chapter"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("new_chapter");
 
     /**
      *

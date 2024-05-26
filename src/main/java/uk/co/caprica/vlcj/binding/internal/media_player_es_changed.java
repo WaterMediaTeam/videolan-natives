@@ -33,7 +33,7 @@ public class media_player_es_changed extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("i_type", "i_id"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("i_type", "i_id");
 
     /**
      *

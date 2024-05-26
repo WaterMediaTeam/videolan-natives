@@ -31,7 +31,7 @@ import com.sun.jna.Structure;
  */
 public class libvlc_media_track_t extends Structure {
 
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("i_codec", "i_original_fourcc", "i_id", "i_type", "i_profile", "i_level", "u", "i_bitrate", "psz_language", "psz_description"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("i_codec", "i_original_fourcc", "i_id", "i_type", "i_profile", "i_level", "u", "i_bitrate", "psz_language", "psz_description");
 
     public int i_codec;
     public int i_original_fourcc;

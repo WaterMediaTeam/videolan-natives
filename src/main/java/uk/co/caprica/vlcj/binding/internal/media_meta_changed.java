@@ -33,7 +33,7 @@ public class media_meta_changed extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("meta_type"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("meta_type");
 
     /**
      * Type of meta.

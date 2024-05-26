@@ -33,7 +33,7 @@ public class media_list_item_added extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("item", "index"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("item", "index");
 
     public libvlc_media_t item;
     public int index;

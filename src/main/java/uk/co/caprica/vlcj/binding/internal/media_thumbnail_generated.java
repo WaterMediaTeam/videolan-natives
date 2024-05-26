@@ -33,7 +33,7 @@ public class media_thumbnail_generated extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("p_thumbnail"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("p_thumbnail");
 
     /**
      *

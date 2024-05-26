@@ -33,7 +33,7 @@ public class vlm_media_event extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("psz_media_name", "psz_instance_name"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("psz_media_name", "psz_instance_name");
 
     public String psz_media_name;
     public String psz_instance_name;

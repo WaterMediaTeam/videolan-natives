@@ -85,7 +85,7 @@ public enum libvlc_event_e {
     libvlc_RendererDiscovererItemAdded  (0x502),
     libvlc_RendererDiscovererItemDeleted(0x503);
 
-    private static final Map<Integer, libvlc_event_e> INT_MAP = new HashMap<Integer, libvlc_event_e>();
+    private static final Map<Integer, libvlc_event_e> INT_MAP = new HashMap<>();
 
     static {
         for(libvlc_event_e event : libvlc_event_e.values()) {

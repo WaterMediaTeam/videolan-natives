@@ -30,7 +30,7 @@ import com.sun.jna.Structure;
  */
 public class libvlc_track_description_t extends Structure {
 
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("i_id", "psz_name", "p_next"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("i_id", "psz_name", "p_next");
 
     public static class ByReference extends libvlc_track_description_t implements Structure.ByReference {}
 

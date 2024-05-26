@@ -33,7 +33,7 @@ public class media_player_buffering extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("new_cache"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("new_cache");
 
     /**
      * A percentage complete indicator, ranging from 0.0 to 100.0.

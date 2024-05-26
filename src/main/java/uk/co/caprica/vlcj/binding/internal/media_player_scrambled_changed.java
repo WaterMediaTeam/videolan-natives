@@ -33,7 +33,7 @@ public class media_player_scrambled_changed extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("new_scrambled"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("new_scrambled");
 
     /**
      *

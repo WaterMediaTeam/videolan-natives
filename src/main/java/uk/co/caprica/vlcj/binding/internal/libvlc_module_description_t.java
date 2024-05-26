@@ -33,7 +33,7 @@ public class libvlc_module_description_t extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("psz_name", "psz_shortname", "psz_longname", "psz_help", "p_next"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("psz_name", "psz_shortname", "psz_longname", "psz_help", "p_next");
 
     public static class ByReference extends libvlc_module_description_t implements Structure.ByReference {}
 

@@ -29,11 +29,7 @@ import com.sun.jna.Structure;
  *
  */
 public class libvlc_audio_track_t extends Structure {
-
-    /**
-     *
-     */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("i_channels", "i_rate"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("i_channels", "i_rate");
 
     public static class ByValue extends libvlc_audio_track_t implements Structure.ByValue {}
 

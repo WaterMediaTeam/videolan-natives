@@ -33,7 +33,7 @@ public class media_list_player_next_item_set extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("item"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("item");
 
     /**
      *

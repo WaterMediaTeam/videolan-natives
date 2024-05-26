@@ -33,7 +33,7 @@ public class renderer_discoverer_item_deleted extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("item"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("item");
 
     /**
      *

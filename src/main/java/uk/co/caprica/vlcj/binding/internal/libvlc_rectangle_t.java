@@ -33,7 +33,7 @@ public class libvlc_rectangle_t extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("top", "left", "bottom", "right"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("top", "left", "bottom", "right");
 
     public int top;
     public int left;

@@ -34,7 +34,7 @@ public class libvlc_subtitle_track_t extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("psz_encoding"));
+    private static final List<String> FIELD_ORDER = Collections.singletonList("psz_encoding");
 
     public static class ByValue extends libvlc_subtitle_track_t implements Structure.ByValue {}
 

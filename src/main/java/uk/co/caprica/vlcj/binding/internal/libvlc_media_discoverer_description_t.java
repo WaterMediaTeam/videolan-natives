@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class libvlc_media_discoverer_description_t extends Structure {
 
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("psz_name", "psz_longname", "i_cat"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("psz_name", "psz_longname", "i_cat");
 
     public static class ByReference extends libvlc_media_discoverer_description_t implements Structure.ByReference {}
 

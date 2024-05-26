@@ -34,7 +34,7 @@ public class libvlc_audio_output_device_t extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("p_next", "psz_device", "psz_description"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("p_next", "psz_device", "psz_description");
 
     public static class ByReference extends libvlc_audio_output_device_t implements Structure.ByReference {}
 

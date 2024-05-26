@@ -34,7 +34,7 @@ public class libvlc_event_t extends Structure {
     /**
      *
      */
-    private static final List<String> FIELD_ORDER = Collections.unmodifiableList(Arrays.asList("type", "obj", "u"));
+    private static final List<String> FIELD_ORDER = Arrays.asList("type", "obj", "u");
 
     /**
      * @see libvlc_event_e

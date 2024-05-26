@@ -19,6 +19,9 @@
 
 package uk.co.caprica.vlcj.binding.support.runtime;
 
+import com.sun.jna.platform.win32.Kernel32;
+import uk.co.caprica.vlcj.binding.lib.LibC;
+
 /**
  * Crude heuristics to determine the current Operating System.
  * <p>
@@ -36,6 +39,9 @@ public final class RuntimeUtil {
      */
     private RuntimeUtil() {
     }
+
+    public static final int PID = isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();
+
 
     /**
      * Test whether the runtime operating system is "unix-like".

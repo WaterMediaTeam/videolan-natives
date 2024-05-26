@@ -28,23 +28,17 @@ import uk.co.caprica.vlcj.binding.lib.LibVlc;
  * This class takes care of freeing the memory that was natively allocated for the string, if needed.
  * <p>
  * Generally, any native API that returns "const char*" must <em>not</em> be freed, so in such cases the native return
- * type mapping can actually be String rather than {@link Pointer}. Alternatively, {@link #copyNativeString(Pointer)}
+ * type mapping can actually be String rather than {@link Pointer}. Alternatively, {@link #copy(Pointer)}
  * can be used.
  * <p>
  * Generally, Any native API that returns "char*" <em>must</em> be freed, so in such cases the native return type
- * mapping must be {@link Pointer} and {@link #copyAndFreeNativeString(Pointer)} must be used.
+ * mapping must be {@link Pointer} and {@link #copyAndFree(Pointer)} must be used.
  * <p>
  * Where a native string is contained in a {@link com.sun.jna.Structure} those strings should <em>not</em> be freed if
  * the structure itself is subsequently freed (usually by a companion release native method), so in these cases
- * {@link #copyNativeString(Pointer)} must be used.
+ * {@link #copy(Pointer)} must be used.
  */
-public final class NativeString {
-
-    /**
-     * Prevent direct instantiation by others.
-     */
-    private NativeString() {
-    }
+public class NativeString {
 
     /**
      * Get a String from a native string pointer, freeing the native string pointer when done.
@@ -56,15 +50,25 @@ public final class NativeString {
      * @param pointer pointer to native string, may be <code>null</code>
      * @return string, or <code>null</code> if the pointer was <code>null</code>
      */
-    public static String copyAndFreeNativeString(Pointer pointer) {
-        if(pointer != null) {
-            // Pointer.getString copies native memory to a Java String
-            String result = pointer.getString(0);
-            LibVlc.libvlc_free(pointer);
-            return result;
+    public static String copyAndFree(Pointer pointer) {
+        try {
+            return copy(pointer);
+        } finally {
+            free(pointer);
         }
-        else {
-            return null;
+    }
+
+    /**
+     * frees the native string pointer
+     * <p>
+     * If the native string pointer is not freed then a native memory leak will occur.
+     * <p>
+     * Use this method if the native string type is "char*", i.e. lacking the "const" modifier.
+     * @param pointer pointer to native string, may be <code>null</code>
+     */
+    public static void free(Pointer pointer) {
+        if (pointer != null) {
+            LibVlc.libvlc_free(pointer);
         }
     }
 
@@ -76,13 +80,7 @@ public final class NativeString {
      * @param pointer pointer to native string, may be <code>null</code>
      * @return string, or <code>null</code> if the pointer was <code>null</code>
      */
-    public static String copyNativeString(Pointer pointer) {
-        if(pointer != null) {
-            // Pointer.getString copies native memory to a Java String
-            return pointer.getString(0);
-        }
-        else {
-            return null;
-        }
+    public static String copy(Pointer pointer) {
+        return (pointer != null) ? pointer.getString(0) : null;
     }
 }

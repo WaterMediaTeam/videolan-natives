@@ -10,7 +10,7 @@ and enhanced multimedia support for JAVA and modded games environment such as Mi
 
 ### DISCLAIMER
 Please consider use and contibute official [VLCJ](https://github.com/caprica/vlcj) lib.<br>
-This fork is only purposed to work and only work with WATERMeDIA, all the development is oriented on 
+This fork is only purposed to work and only work with WATERMeDIA, all the development is oriented on that 
 
 ### LICENSE
 VLCJ-Natives and VLCJ code is under GLPv3 (following upstream license)

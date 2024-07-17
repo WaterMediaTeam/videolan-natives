@@ -48,7 +48,7 @@ public class VideoLan4J {
      * Encodes {@link File} into a MRL string
      */
     public static libvlc_media_t getMediaInstance(libvlc_instance_t vlc, File url) {
-        return LibVlc.libvlc_media_new_location(vlc, url.toString());
+        return LibVlc.libvlc_media_new_path(vlc, url.toString());
     }
 
     /**

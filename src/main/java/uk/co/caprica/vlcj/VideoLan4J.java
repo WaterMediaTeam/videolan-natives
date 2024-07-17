@@ -11,6 +11,7 @@ import uk.co.caprica.vlcj.binding.lib.LibC;
 import uk.co.caprica.vlcj.binding.lib.LibVlc;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 
 public class VideoLan4J {
@@ -27,13 +28,19 @@ public class VideoLan4J {
     public static final int PID = Platform.isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();
 
     /**
-     * Encodes {@link URL} into s MRL string<br>
-     * The {@link URL#toString()} method returns the <code>File</code> protocol with one slashes instead of three.
+     * Encodes {@link URI} into s MRL string<br>
+     * The {@link File#toString()} method returns the <code>file:///</code> protocol just with one slash instead of three.
      * Method does a special handling for that
      */
-    public static libvlc_media_t getMediaInstance(libvlc_instance_t vlc, URL url) {
-        String mrl = url.toString();
-        if (mrl.startsWith("file:/") && !mrl.startsWith("file:///")) mrl = mrl.replace("file:/", "file:///");
+    public static libvlc_media_t getMediaInstance(libvlc_instance_t vlc, URI url) {
+        String mrl = url.toString(); //
+        if (mrl.startsWith("file:") && !mrl.startsWith("file:///")) { // check if wasn't a valid file:/// protocol
+            if (mrl.startsWith("file://")) { // misses 1 slash
+                mrl = mrl.replace("file://", "file:///");
+            } else if (mrl.startsWith("file:/")) { // misses 2 / slashes
+                mrl = mrl.replace("file:/", "file:///");
+            }
+        }
         return LibVlc.libvlc_media_new_location(vlc, mrl);
     }
 

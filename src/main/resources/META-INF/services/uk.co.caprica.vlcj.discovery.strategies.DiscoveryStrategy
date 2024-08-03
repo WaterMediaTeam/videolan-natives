@@ -1,0 +1,4 @@
+uk.co.caprica.vlcj.discovery.strategies.WinStrategy
+uk.co.caprica.vlcj.discovery.strategies.LinuxStrategy
+uk.co.caprica.vlcj.discovery.strategies.MacOsStrategy
+

@@ -1,0 +1,6 @@
+uk.co.caprica.vlcj.discovery.providers.WindowsInstallProvider
+uk.co.caprica.vlcj.discovery.providers.WindowsProvider
+uk.co.caprica.vlcj.discovery.providers.SystemProvider
+uk.co.caprica.vlcj.discovery.providers.MacOsProvider
+uk.co.caprica.vlcj.discovery.providers.LinuxProvider
+uk.co.caprica.vlcj.discovery.providers.JnaProvider

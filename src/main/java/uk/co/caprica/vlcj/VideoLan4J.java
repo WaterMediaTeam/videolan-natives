@@ -12,13 +12,13 @@ import uk.co.caprica.vlcj.binding.lib.LibVlc;
 
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
 
 public class VideoLan4J {
     public static final Logger LOGGER = LogManager.getLogger("VideoLan4J");
 
     public static final String LIBVLC_NAME = Platform.isWindows() ? "libvlc" : "vlc";
     public static final String LIBVLCCORE_NAME = Platform.isWindows() ? "libvlccore" : "vlccore";
+    public static final Version LIBVLC_MIN_VERSION = new Version("3.0.0");
 
     /**
      * Process ID
@@ -104,5 +104,9 @@ public class VideoLan4J {
      */
     public static String copyNativeString(Pointer pointer) {
         return (pointer != null) ? pointer.getString(0) : null;
+    }
+
+    public static Version getVideoLanVersion() {
+        return new Version(LibVlc.libvlc_get_version());
     }
 }

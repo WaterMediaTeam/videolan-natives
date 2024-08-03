@@ -6,7 +6,7 @@ import java.net.URI;
 public class Experiments {
     public static void main(String... args) {
         // VALIDATE THINGS BEFORE PUSH IT
-        URI u = URI.create("file://path/to/protocol?var1=string");
+        URI u = URI.create("file:/c:/path/to/protocol?var1=string");
         System.out.println("URI IS: " + u);
         System.out.println("HOST IS: " + u.getHost());
         System.out.println("AUTH IS: " + u.getAuthority());

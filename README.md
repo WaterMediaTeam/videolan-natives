@@ -1,6 +1,6 @@
 # VideoLAN: Java Natives
 Fork of [vlcj-natives](https://github.com/caprica/vlcj-natives) designed to execute
-LibVLC methods used by the project [WATERMeDIA](https://github.com/SrRapero720/watermedia) adding
+LibVLC methods used by the project [WATERMeDIA](https://github.com/WaterMediaTeam/watermedia) adding
 and enhanced multimedia support for JAVA and modded games environment such as Minecraft or Cosmic Reach
 
 **This library has the next purposes:**
@@ -9,8 +9,9 @@ and enhanced multimedia support for JAVA and modded games environment such as Mi
 - Callback spec and management
 
 ### DISCLAIMER
-Please consider use and contibute official [VLCJ](https://github.com/caprica/vlcj) lib.<br>
-This fork is only purposed to work and only work with WATERMeDIA, all the development is oriented on that 
+Please use and contibute official [VLCJ](https://github.com/caprica/vlcj) lib.<br>
+This fork is only purposed to work and only work with WATERMeDIA, all the development is oriented on that,
+avoid asking support for external projects, use the original. 
 
 ### LICENSE
 VLCJ-Natives and VLCJ code is under GLPv3 (following upstream license)

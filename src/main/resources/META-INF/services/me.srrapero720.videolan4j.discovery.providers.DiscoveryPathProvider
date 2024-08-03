@@ -1,0 +1,6 @@
+me.srrapero720.videolan4j.discovery.providers.WindowsInstallProvider
+me.srrapero720.videolan4j.discovery.providers.WindowsProvider
+me.srrapero720.videolan4j.discovery.providers.SystemProvider
+me.srrapero720.videolan4j.discovery.providers.MacOsProvider
+me.srrapero720.videolan4j.discovery.providers.LinuxProvider
+me.srrapero720.videolan4j.discovery.providers.JnaProvider

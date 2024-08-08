@@ -1,18 +1,19 @@
-package me.srrapero720.videolan4j.discovery.strategies;
+package me.srrapero720.videolan4j.discovery.environments;
 
 import com.sun.jna.Platform;
 import me.srrapero720.videolan4j.binding.lib.LibC;
+import me.srrapero720.videolan4j.discovery.DiscoveryEnvironment;
 
 import java.util.regex.Pattern;
 
-public class WinStrategy extends DiscoveryStrategy {
+public class WinEnvironment extends DiscoveryEnvironment {
     @Override
     public boolean supported() {
         return Platform.isWindows();
     }
 
     @Override
-    public Pattern[] pathPatterns() {
+    public Pattern[] binPatterns() {
         return new Pattern[] {
                 Pattern.compile("libvlc\\.so(?:\\.\\d)*"),
                 Pattern.compile("libvlccore\\.so(?:\\.\\d)*"),

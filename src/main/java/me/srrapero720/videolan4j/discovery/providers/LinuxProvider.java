@@ -1,17 +1,17 @@
 package me.srrapero720.videolan4j.discovery.providers;
 
 import com.sun.jna.Platform;
-import me.srrapero720.videolan4j.discovery.ProviderPriority;
+import me.srrapero720.videolan4j.discovery.DiscoveryProvider;
 
-public class LinuxProvider extends DiscoveryPathProvider {
+public class LinuxProvider implements DiscoveryProvider {
     @Override
     public boolean supported() {
         return Platform.isLinux();
     }
 
     @Override
-    public ProviderPriority priority() {
-        return ProviderPriority.HIGH;
+    public Priority priority() {
+        return Priority.HIGH;
     }
 
     @Override

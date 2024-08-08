@@ -1,4 +1,4 @@
-package me.srrapero720.videolan4j;
+package me.srrapero720.videolan4j.tools;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

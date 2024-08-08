@@ -6,6 +6,7 @@ import com.sun.jna.platform.win32.Kernel32;
 import me.srrapero720.videolan4j.binding.internal.libvlc_instance_t;
 import me.srrapero720.videolan4j.binding.internal.libvlc_media_t;
 import me.srrapero720.videolan4j.binding.lib.LibC;
+import me.srrapero720.videolan4j.tools.Version;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import me.srrapero720.videolan4j.binding.lib.LibVlc;

@@ -1,10 +1,10 @@
 package me.srrapero720.videolan4j.discovery.providers;
 
-import me.srrapero720.videolan4j.discovery.ProviderPriority;
+import me.srrapero720.videolan4j.discovery.DiscoveryProvider;
 
 import java.io.File;
 
-public class JnaProvider extends DiscoveryPathProvider {
+public class JnaPathProvider implements DiscoveryProvider {
     private static final String JNA_LIBRARY_PATH = System.getProperty("jna.library.path");
 
     @Override
@@ -13,8 +13,8 @@ public class JnaProvider extends DiscoveryPathProvider {
     }
 
     @Override
-    public ProviderPriority priority() {
-        return ProviderPriority.NORMAL;
+    public Priority priority() {
+        return Priority.NORMAL;
     }
 
     @Override

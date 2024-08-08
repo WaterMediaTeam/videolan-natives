@@ -1,18 +1,19 @@
 package me.srrapero720.videolan4j.discovery.providers;
 
-import me.srrapero720.videolan4j.discovery.ProviderPriority;
+import com.sun.jna.Platform;
+import me.srrapero720.videolan4j.discovery.DiscoveryProvider;
 
 import java.io.File;
 
-public class SystemProvider extends DiscoveryPathProvider {
+public class SystemPathProvider implements DiscoveryProvider {
     @Override
     public boolean supported() {
-        return true;
+        return !Platform.isWindows();
     }
 
     @Override
-    public ProviderPriority priority() {
-        return ProviderPriority.LOWEST;
+    public Priority priority() {
+        return Priority.LOWEST;
     }
 
     @Override

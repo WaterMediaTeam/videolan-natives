@@ -3,9 +3,9 @@ package me.srrapero720.videolan4j.discovery.providers;
 import com.sun.jna.Platform;
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.WinReg;
-import me.srrapero720.videolan4j.discovery.ProviderPriority;
+import me.srrapero720.videolan4j.discovery.DiscoveryProvider;
 
-public class WindowsInstallProvider extends DiscoveryPathProvider {
+public class WinRegistryProvider implements DiscoveryProvider {
     private static final String VLC_REGISTRY_KEY = "SOFTWARE\\VideoLAN\\VLC";
     private static final String VLC_INSTALL_DIR_KEY = "InstallDir";
 
@@ -15,8 +15,8 @@ public class WindowsInstallProvider extends DiscoveryPathProvider {
     }
 
     @Override
-    public ProviderPriority priority() {
-        return ProviderPriority.HIGHEST;
+    public Priority priority() {
+        return Priority.HIGHEST;
     }
 
     @Override

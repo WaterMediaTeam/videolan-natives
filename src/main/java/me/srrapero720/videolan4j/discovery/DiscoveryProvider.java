@@ -3,7 +3,7 @@ package me.srrapero720.videolan4j.discovery;
 public interface DiscoveryProvider {
 
     /**
-     * By default returns the simple class name
+     * By default, returns the simple class name
      * @return Name of the provider
      */
     default String name() {

@@ -13,5 +13,8 @@ Please use and contibute official [VLCJ](https://github.com/caprica/vlcj) lib.<b
 This fork is only purposed to work and only work with WATERMeDIA, all the development is oriented on that,
 avoid asking support for external projects, use the original. 
 
+## ENV ARGUMENTS
+- `Dvideolan4j.disableMacWorkarounds=true` | disables MacOS workarounds
+
 ### LICENSE
-VLCJ-Natives and VLCJ code is under GLPv3 (following upstream license)
+**VideoLan4J** is under GLPv3 based on Upstream license

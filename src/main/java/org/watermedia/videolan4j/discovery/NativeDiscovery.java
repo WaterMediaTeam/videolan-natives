@@ -39,11 +39,13 @@ public class NativeDiscovery {
             String directory = null;
             DiscoveryProvider provider = null;
             for (DiscoveryProvider p: DiscoveryEnvironment.getProviders()) {
+                VideoLan4J.LOGGER.info(IT, "Searching using {}", p.name());
                 for (String d: p.directories()) {
                     directory = environment.find(d);
                     provider = p;
                     if (directory != null) break;
                 }
+                if (directory != null) break;
             }
 
             if (directory == null) continue;

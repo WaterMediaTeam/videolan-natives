@@ -15,8 +15,8 @@ public class WinEnvironment extends DiscoveryEnvironment {
     @Override
     public Pattern[] binPatterns() {
         return new Pattern[] {
-                Pattern.compile("libvlc\\.so(?:\\.\\d)*"),
-                Pattern.compile("libvlccore\\.so(?:\\.\\d)*"),
+                Pattern.compile("libvlc\\.dll"),
+                Pattern.compile("libvlccore\\.dll"),
         };
     }
 

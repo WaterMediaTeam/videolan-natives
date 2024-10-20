@@ -1,0 +1,6 @@
+org.watermedia.videolan4j.discovery.providers.WinRegistryProvider
+org.watermedia.videolan4j.discovery.providers.WinProvider
+org.watermedia.videolan4j.discovery.providers.SystemPathProvider
+org.watermedia.videolan4j.discovery.providers.MacProvider
+org.watermedia.videolan4j.discovery.providers.LinuxProvider
+org.watermedia.videolan4j.discovery.providers.JnaPathProvider

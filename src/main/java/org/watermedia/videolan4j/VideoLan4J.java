@@ -13,6 +13,8 @@ import org.watermedia.videolan4j.binding.lib.LibVlc;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.function.Function;
 
 public class VideoLan4J {
     public static final Logger LOGGER = LogManager.getLogger("VideoLan4J");
@@ -20,6 +22,7 @@ public class VideoLan4J {
     public static final String LIBVLC_NAME = Platform.isWindows() ? "libvlc" : "vlc";
     public static final String LIBVLCCORE_NAME = Platform.isWindows() ? "libvlccore" : "vlccore";
     public static final Version LIBVLC_MIN_VERSION = new Version("3.0.0");
+    public static Function<Integer, ByteBuffer> DIRECT_BUFFER_BUILDER = ByteBuffer::allocateDirect;
 
     /**
      * Process ID
@@ -55,6 +58,28 @@ public class VideoLan4J {
     public static void checkClassLoader(ClassLoader classLoader) {
         Thread t = Thread.currentThread();
         if (t.getContextClassLoader() == null) t.setContextClassLoader(classLoader);
+    }
+
+    /**
+     * Replaced the default direct bytebuffer builder.
+     * For better, modern or even more direct implementations
+     *
+     * @param bufferBuilder builder function, it cannot be null
+     */
+    public static void setCustomDirectBufferBuilder(Function<Integer, ByteBuffer> bufferBuilder) {
+        DIRECT_BUFFER_BUILDER = bufferBuilder;
+    }
+
+    /**
+     * Crates a direct bytebuffer using the best VLCJ-suggested way
+     * Can be replaced using other builder
+     *
+     * @param size buffer size
+     * @see #setCustomDirectBufferBuilder(Function)
+     * @return direct ByteBuffer instance
+     */
+    public static ByteBuffer createDirectByteBuffer(int size) {
+        return DIRECT_BUFFER_BUILDER.apply(size);
     }
 
     /**

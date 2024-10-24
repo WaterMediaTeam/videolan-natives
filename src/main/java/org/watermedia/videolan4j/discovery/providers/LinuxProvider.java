@@ -27,10 +27,8 @@ public class LinuxProvider implements DiscoveryProvider {
                 "/usr/bin/vlc",
                 "/usr/local/lib",
                 "/usr/local/lib/vlc",
-                "/var/lib/flatpak",
-                "/var/lib/flatpak/org.videolan.VLC",
-                "/var/lib/flatpak/app/org.videolan.VLC",
-                "/bin"
+                "/bin",
+                "/bin/vlc"
         };
     }
 }

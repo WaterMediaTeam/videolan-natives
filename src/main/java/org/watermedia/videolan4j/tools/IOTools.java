@@ -17,11 +17,7 @@ public class IOTools {
         if (!Files.isSymbolicLink(path)) return path.toFile();
         try {
             File symLink = Files.readSymbolicLink(path).toFile();
-            if (symLink.isDirectory()) {
-                LOGGER.debug("Path '{}' is a directory symlink to '{}'", path.toString(), symLink.toPath());
-            } else {
-                LOGGER.debug("Path '{}' is a file symlink to '{}'", path.toString(), symLink.toPath());
-            }
+            LOGGER.debug("Path '{}' is a {} symlink to '{}'", path.toString(), symLink.isDirectory() ? "directory" : "file", symLink.toPath());
             return symLink;
         } catch (Exception ignored) {}
         return path.toFile();

@@ -5,11 +5,8 @@ import java.util.regex.Pattern;
 
 /**
  * Encapsulation of version information and related behaviors.
- * <p>
- * This may be useful to implement version-specific features.
- * <p>
- * This implementation is not exhaustive, but is good enough for the known vlc
- * versions.
+ *
+ * <p>This may be useful to implement version-specific features.<p>
  */
 public class Version implements Comparable<Version> {
     private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)[\\-_\\s]?(.*)");

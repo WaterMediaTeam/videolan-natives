@@ -9,6 +9,8 @@ import org.watermedia.videolan4j.VideoLan4J;
 import java.util.regex.Pattern;
 
 public class MacEnvironment extends DiscoveryEnvironment {
+    private static final boolean DISABLE_WORKARROUNDS = Boolean.parseBoolean(System.getProperty("videolan4j.disableMacWorkarounds"));
+
     @Override
     public boolean supported() {
         return Platform.isMac();
@@ -29,7 +31,7 @@ public class MacEnvironment extends DiscoveryEnvironment {
 
     @Override
     protected boolean onFound(DiscoveryProvider provider, String path) {
-        if (Boolean.parseBoolean(System.getProperty("videolan4j.disableMacWorkarounds"))) {
+        if (!DISABLE_WORKARROUNDS) {
             NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
             NativeLibrary.getInstance(VideoLan4J.LIBVLCCORE_NAME);
         }

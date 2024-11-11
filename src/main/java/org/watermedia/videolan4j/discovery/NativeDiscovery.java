@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.watermedia.videolan4j.VideoLan4J;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
-import org.watermedia.videolan4j.binding.lib.LibVlc;
+import org.watermedia.videolan4j.binding.lib.LibVlcMinimal;
 
 import java.lang.ref.Reference;
 import java.lang.reflect.Field;
@@ -69,11 +69,11 @@ public class NativeDiscovery {
 
     private static boolean testInstance() {
         try {
-            libvlc_instance_t instance = LibVlc.libvlc_new(0, new StringArray(new String[0]));
+            libvlc_instance_t instance = LibVlcMinimal.libvlc_new(0, new StringArray(new String[0]));
             if (instance == null)
                 return false;
 
-            LibVlc.libvlc_release(instance);
+            LibVlcMinimal.libvlc_release(instance);
             if (VideoLan4J.getVideoLanVersion().atLeast(VideoLan4J.LIBVLC_MIN_VERSION)) {
                 return true;
             }

@@ -32,5 +32,4 @@ public interface Kernel32 extends StdCallLibrary {
     int VirtualLock(Pointer lpAddress, size_t dwSize);
 
     int VirtualUnlock(Pointer lpAddress, size_t dwSize);
-
 }

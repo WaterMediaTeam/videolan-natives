@@ -1,22 +1,3 @@
-/*
- * This file is part of VLCJ.
- *
- * VLCJ is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * VLCJ is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with VLCJ.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Copyright 2009-2019 Caprica Software Limited.
- */
-
 package org.watermedia.videolan4j.binding.internal;
 
 import com.sun.jna.Callback;
@@ -44,13 +25,15 @@ public interface libvlc_video_format_cb extends Callback {
      *            allocated by LibVLC) [OUT]
      * @param lines table of scanlines count for each plane [OUT]
      * @return the number of picture buffers allocated, 0 indicates failure
-     *
+     * <br>
+     * <p>
      *         Note: For each pixels plane, the scanline pitch must be bigger than or equal to the
      *         number of bytes per pixel multiplied by the pixel width. Similarly, the number of
      *         scanlines must be bigger than of equal to the pixel height. Furthermore, we recommend
      *         that pitches and lines be multiple of 32 to not break assumption that might be made
      *         by various optimizations in the video decoders, video filters and/or video
      *         converters.
+     * </p>
      */
     int format(PointerByReference opaque, PointerByReference chroma, IntByReference width, IntByReference height, PointerByReference pitches, PointerByReference lines);
 }

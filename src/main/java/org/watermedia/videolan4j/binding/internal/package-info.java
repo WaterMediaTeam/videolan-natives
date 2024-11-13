@@ -1,4 +1,4 @@
 /**
- * Internal JNA bindings for libvlc, bindings to native types and structures.
+ * Bindings of VideoLAN4j
  */
 package org.watermedia.videolan4j.binding.internal;

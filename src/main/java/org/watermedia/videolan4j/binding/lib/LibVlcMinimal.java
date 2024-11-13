@@ -5,6 +5,10 @@ import com.sun.jna.StringArray;
 import org.watermedia.videolan4j.VideoLan4J;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
 
+/**
+ * Minimal JNA interface to the libvlc native library
+ * <p>Purpose of this interface is to validate minimal and maximum LibVLC version before load the complete interface</p>
+ */
 public final class LibVlcMinimal {
     static {
         Native.register(VideoLan4J.LIBVLC_NAME);

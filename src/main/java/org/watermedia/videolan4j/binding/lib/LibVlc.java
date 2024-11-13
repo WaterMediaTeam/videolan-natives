@@ -22,50 +22,8 @@ package org.watermedia.videolan4j.binding.lib;
 import com.sun.jna.Native;
 import com.sun.jna.StringArray;
 import org.watermedia.videolan4j.VideoLan4J;
-import org.watermedia.videolan4j.binding.lib.types.size_t;
-import org.watermedia.videolan4j.binding.lib.types.size_tByReference;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_cleanup_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_drain_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_flush_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_output_device_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_output_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_pause_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_play_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_resume_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_set_volume_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_audio_setup_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_callback_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_dialog_cbs;
-import org.watermedia.videolan4j.binding.internal.libvlc_dialog_id;
-import org.watermedia.videolan4j.binding.internal.libvlc_display_callback_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_equalizer_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_event_e;
-import org.watermedia.videolan4j.binding.internal.libvlc_event_u;
-import org.watermedia.videolan4j.binding.internal.libvlc_event_manager_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_lock_callback_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_log_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_log_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_close_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_discoverer_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_list_player_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_list_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_open_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_player_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_read_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_seek_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_stats_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_module_description_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_picture_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_renderer_discoverer_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_renderer_item_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_media_thumbnail_request_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_track_description_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_unlock_callback_t;
-import org.watermedia.videolan4j.binding.internal.libvlc_video_cleanup_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_video_format_cb;
-import org.watermedia.videolan4j.binding.internal.libvlc_video_viewpoint_t;
+import org.watermedia.videolan4j.binding.lib.types.*;
+import org.watermedia.videolan4j.binding.internal.*;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -87,12 +45,13 @@ import com.sun.jna.ptr.PointerByReference;
  * <pre>
  * -Djna.dump_memory=true
  * </pre>
- * In the native header file, generally "char*" types must be freed, but "const char*" need (must) not.
+ * In the native header file, generally "char*" types must be freed, but "const char*" needs to (must) not.
  * <p>
  * This interface is essentially a translation of the LibVLC header files to Java, with changes for JNA/Java types. The
  * documentation in that VLC header file is reproduced here for convenience, with the appropriate Javadoc documentation
  * convention changes, the copyright of which (mostly) belongs to the VLC authors.
  */
+@SuppressWarnings("unused")
 public final class LibVlc {
 
     static {
@@ -519,8 +478,9 @@ public final class LibVlc {
     public static native int libvlc_media_get_stats(libvlc_media_t p_md, libvlc_media_stats_t p_stats);
 
     /**
-     * Get subitems of media descriptor object. This will increment the reference count of supplied
-     * media descriptor object. Use libvlc_media_list_release() to decrement the reference counting.
+     * Get subitems of a media descriptor object.
+     * This will increment the reference count of a supplied media descriptor object.
+     * Use libvlc_media_list_release() to decrement the reference counting.
      *
      * @param p_md media descriptor object
      * @return list of media descriptor subitems or NULL This method uses libvlc_media_list_t,
@@ -529,8 +489,8 @@ public final class LibVlc {
     public static native libvlc_media_list_t libvlc_media_subitems(libvlc_media_t p_md);
 
     /**
-     * Get event manager from media descriptor object. NOTE: this function doesn't increment
-     * reference counting.
+     * Get an event manager from a media descriptor object.
+     * NOTE: this function doesn't increment reference counting.
      *
      * @param p_md a media descriptor object
      * @return event manager object
@@ -547,9 +507,9 @@ public final class LibVlc {
 
     /**
      * Parse a media.
-     *
+     * <p>
      * This fetches (local) art, meta data and tracks information.
-     *
+     * </p>
      * The method is the asynchronous of libvlc_media_parse(). To track when this is over you
      * can listen to libvlc_MediaParsedChanged event. However if the media was already parsed
      * you will not receive this event.
@@ -563,21 +523,21 @@ public final class LibVlc {
 
     /**
      * Parse the media asynchronously with options.
-     *
+     * <p>
      * This fetches (local or network) art, meta data and/or tracks information.
-     *
+     * </p>
      * This method is the extended version of libvlc_media_parse_with_options().
-     *
+     * <p>
      * To track when this is over you can listen to libvlc_MediaParsedChanged
      * event. However if this functions returns an error, you will not receive any
      * events.
-     *
+     * </p>
      * It uses a flag to specify parse options. All
      * these flags can be combined. By default, media is parsed if it's a local
      * file.
-     *
+     * <p>
      * Parsing can be aborted with libvlc_media_parse_stop().
-     *
+     * </p>
      * @see libvlc_event_e#libvlc_MediaParsedChanged
      * @see #libvlc_media_get_meta(libvlc_media_t, int)
      * @see #libvlc_media_tracks_get(libvlc_media_t, PointerByReference)

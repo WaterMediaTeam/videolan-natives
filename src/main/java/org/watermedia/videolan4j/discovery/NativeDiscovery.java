@@ -31,7 +31,7 @@ public class NativeDiscovery {
         return discoveredPath;
     }
 
-    public static boolean discovery() {
+    public static synchronized boolean discovery() {
         if (discovered) return true;
 
         for (DiscoveryEnvironment environment: DiscoveryEnvironment.getStrategies()) {

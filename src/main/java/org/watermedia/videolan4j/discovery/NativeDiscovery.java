@@ -16,6 +16,7 @@ public class NativeDiscovery {
     private static final Marker IT = MarkerManager.getMarker("NativeDiscovery");
 
     private static boolean discovered = false;
+    private static boolean attempted = false;
     private static DiscoveryEnvironment activeStrategy;
     private static String discoveredPath;
 
@@ -33,6 +34,7 @@ public class NativeDiscovery {
 
     public static synchronized boolean discovery() {
         if (discovered) return true;
+        if (attempted) return false;
 
         for (DiscoveryEnvironment environment: DiscoveryEnvironment.getStrategies()) {
 
@@ -59,10 +61,11 @@ public class NativeDiscovery {
             } else {
                 VideoLan4J.LOGGER.error(IT, "Failed loading VLC in '{}' using '{}/{}' cleaning JNA paths and trying again...", directory, environment.name(), provider.name());
                 if (testCleanup()) continue;
-                return false;
+                break;
             }
         }
 
+        attempted = true;
         return false;
     }
 
@@ -74,6 +77,7 @@ public class NativeDiscovery {
                 return false;
 
             LibVlcMinimal.libvlc_release(instance);
+            // No matter the order, JVM will throw a NoClassDefFoundError when methods don't match
             if (VideoLan4J.getVideoLanVersion().atLeast(VideoLan4J.LIBVLC_MIN_VERSION)) {
                 return true;
             }

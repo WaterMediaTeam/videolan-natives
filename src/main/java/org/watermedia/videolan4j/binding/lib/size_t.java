@@ -17,10 +17,12 @@
  * Copyright 2009-2019 Caprica Software Limited.
  */
 
-package org.watermedia.videolan4j.binding.lib.types;
+package org.watermedia.videolan4j.binding.lib;
 
 import com.sun.jna.IntegerType;
 import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.ByReference;
 
 /**
  * Native size_t type.
@@ -32,5 +34,17 @@ public class size_t extends IntegerType {
 
     public size_t(long value) {
         super(Native.SIZE_T_SIZE, value);
+    }
+
+    public static class size_tByReference extends ByReference {
+
+        public size_tByReference() {
+            super(Native.SIZE_T_SIZE);
+        }
+
+        public size_t getValue() {
+            Pointer pointer = getPointer();
+            return new size_t(Native.SIZE_T_SIZE == 8 ? pointer.getLong(0) : pointer.getInt(0));
+        }
     }
 }

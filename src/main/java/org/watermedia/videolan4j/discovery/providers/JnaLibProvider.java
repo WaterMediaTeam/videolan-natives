@@ -1,10 +1,8 @@
 package org.watermedia.videolan4j.discovery.providers;
 
-import org.watermedia.videolan4j.discovery.DiscoveryProvider;
-
 import java.io.File;
 
-public class JnaPathProvider implements DiscoveryProvider {
+public class JnaLibProvider implements IProvider {
     private static final String JNA_LIBRARY_PATH = System.getProperty("jna.library.path");
 
     @Override
@@ -14,7 +12,7 @@ public class JnaPathProvider implements DiscoveryProvider {
 
     @Override
     public Priority priority() {
-        return Priority.NORMAL;
+        return Priority.LOW;
     }
 
     @Override

@@ -5,17 +5,15 @@ import java.util.regex.Pattern;
 
 /**
  * Encapsulation of version information and related behaviors.
- *
- * <p>This may be useful to implement version-specific features.<p>
  */
 public class Version implements Comparable<Version> {
     private static final Pattern VERSION_PATTERN = Pattern.compile("(\\d+)\\.(\\d+)\\.(\\d+)[\\-_\\s]?(.*)");
 
-    private final String version;
-    private final int major;
-    private final int minor;
-    private final int revision;
-    private final String extra;
+    public final String version;
+    public final int major;
+    public final int minor;
+    public final int revision;
+    public final String extra;
 
     /**
      * Create a new version.
@@ -38,52 +36,6 @@ public class Version implements Comparable<Version> {
             throw new IllegalArgumentException("Can't parse version from '" + version + "'");
         }
     }
-
-    /**
-     * Get the original version string.
-     *
-     * @return version
-     */
-    public String version() {
-        return version;
-    }
-
-    /**
-     * Get the major version.
-     *
-     * @return major version number
-     */
-    public int major() {
-        return major;
-    }
-
-    /**
-     * Get the minor version.
-     *
-     * @return minor version number
-     */
-    public int minor() {
-        return minor;
-    }
-
-    /**
-     * Get the revision.
-     *
-     * @return revision number
-     */
-    public int revision() {
-        return revision;
-    }
-
-    /**
-     * Get the extra.
-     *
-     * @return extra
-     */
-    public String extra() {
-        return extra;
-    }
-
     /**
      * Test whether this version is at least the required version.
      *
@@ -94,6 +46,17 @@ public class Version implements Comparable<Version> {
         return compareTo(required) >= 0;
     }
 
+    /**
+     * Test whether this version is in range of the required versions.
+     *
+     * @param min required version
+     * @return <code>true</code> if this version is at least (equal to or greater than) the required version
+     */
+    public boolean inRange(Version min, Version max) {
+        return compareTo(min) >= 0 && compareTo(max) < 0;
+    }
+
+
     @Override
     public int compareTo(Version o) {
         int delta = major - o.major;
@@ -101,7 +64,6 @@ public class Version implements Comparable<Version> {
             delta = minor - o.minor;
             if (delta == 0) {
                 delta = revision - o.revision;
-                // We don't care about "extra" - it is a legacy artifact that is no longer used in LibVLC versions
             }
         }
         return delta;

@@ -6,15 +6,15 @@ import org.watermedia.videolan4j.VideoLan4J;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
 
 /**
- * Minimal JNA interface to the libvlc native library
- * <p>Purpose of this interface is to validate minimal and maximum LibVLC version before load the complete interface</p>
+ * JNA interface for the libvlc native library
+ * <p>Purpose of this interface is to access almost all VLC versions before try to bind the main interface</p>
  */
-public final class LibVlcMinimal {
+public final class LibVlcEssential {
     static {
         Native.register(VideoLan4J.LIBVLC_NAME);
     }
 
-    private LibVlcMinimal() {
+    private LibVlcEssential() {
     }
 
     /**

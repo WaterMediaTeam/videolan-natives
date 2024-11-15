@@ -1,11 +1,10 @@
 package org.watermedia.videolan4j.discovery.providers;
 
 import com.sun.jna.Platform;
-import org.watermedia.videolan4j.discovery.DiscoveryProvider;
 
 import java.io.File;
 
-public class SystemPathProvider implements DiscoveryProvider {
+public class SystemProvider implements IProvider {
     @Override
     public boolean supported() {
         return !Platform.isWindows();

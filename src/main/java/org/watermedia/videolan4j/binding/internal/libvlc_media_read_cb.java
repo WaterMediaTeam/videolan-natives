@@ -1,6 +1,6 @@
 package org.watermedia.videolan4j.binding.internal;
 
-import org.watermedia.videolan4j.binding.lib.types.size_t;
+import org.watermedia.videolan4j.binding.lib.size_t;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;

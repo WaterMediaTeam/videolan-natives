@@ -1,9 +1,8 @@
 package org.watermedia.videolan4j.discovery.providers;
 
 import com.sun.jna.Platform;
-import org.watermedia.videolan4j.discovery.DiscoveryProvider;
 
-public class MacProvider implements DiscoveryProvider {
+public class MacProvider implements IProvider {
     @Override
     public boolean supported() {
         return Platform.isMac();
@@ -11,7 +10,7 @@ public class MacProvider implements DiscoveryProvider {
 
     @Override
     public Priority priority() {
-        return Priority.HIGH;
+        return Priority.HIGHEST;
     }
 
     @Override

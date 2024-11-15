@@ -22,7 +22,6 @@ package org.watermedia.videolan4j.binding.lib;
 import com.sun.jna.Native;
 import com.sun.jna.StringArray;
 import org.watermedia.videolan4j.VideoLan4J;
-import org.watermedia.videolan4j.binding.lib.types.*;
 import org.watermedia.videolan4j.binding.internal.*;
 
 import com.sun.jna.Pointer;
@@ -2876,7 +2875,7 @@ public final class LibVlc {
      *
      * @since libvlc 4.0 or later
      */
-    public static /*native*/ Pointer libvlc_picture_get_buffer(libvlc_picture_t pic, size_tByReference size) {
+    public static /*native*/ Pointer libvlc_picture_get_buffer(libvlc_picture_t pic, size_t.size_tByReference size) {
         throw new UnsupportedOperationException();
     }
 

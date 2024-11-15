@@ -1,6 +1,6 @@
-package org.watermedia.videolan4j.discovery;
+package org.watermedia.videolan4j.discovery.providers;
 
-public interface DiscoveryProvider {
+public interface IProvider {
 
     /**
      * By default, returns the simple class name
@@ -12,7 +12,6 @@ public interface DiscoveryProvider {
 
     /**
      * Order priority
-     * @return
      */
     Priority priority();
 

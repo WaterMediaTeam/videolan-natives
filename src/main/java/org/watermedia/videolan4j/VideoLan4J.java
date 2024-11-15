@@ -6,6 +6,7 @@ import com.sun.jna.platform.win32.Kernel32;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
 import org.watermedia.videolan4j.binding.internal.libvlc_media_t;
 import org.watermedia.videolan4j.binding.lib.LibC;
+import org.watermedia.videolan4j.binding.lib.LibVlcEssential;
 import org.watermedia.videolan4j.tools.Version;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,13 @@ public class VideoLan4J {
     public static final String LIBVLC_NAME = Platform.isWindows() ? "libvlc" : "vlc";
     public static final String LIBVLCCORE_NAME = Platform.isWindows() ? "libvlccore" : "vlccore";
     public static final Version LIBVLC_MIN_VERSION = new Version("3.0.0");
+    public static final Version LIBVLC_MAX_VERSION = new Version("3.1.0");
+    public static final String LIBVLC_PLUGIN_ENV_NAME = "VLC_PLUGIN_PATH";
     public static final int LIBVLC_BUFFER_ALIGNMENT = 32;
+
+    public static final boolean VLC4J_DISABLE_MAC_WA = Boolean.parseBoolean(System.getProperty("videolan4j.disableMacWorkarounds"));
+
+
     public static final int PID = Platform.isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();
 
     /**
@@ -119,6 +126,6 @@ public class VideoLan4J {
     }
 
     public static Version getVideoLanVersion() {
-        return new Version(LibVlc.libvlc_get_version());
+        return new Version(LibVlcEssential.libvlc_get_version());
     }
 }

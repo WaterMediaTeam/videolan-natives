@@ -5,9 +5,7 @@ import org.watermedia.videolan4j.VideoLan4J;
 import org.watermedia.videolan4j.discovery.NativeDiscovery;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,8 +13,8 @@ public class Experiments {
     @Test
     public void testDiscovery() {
         VideoLan4J.LOGGER.info("-------------- TEST 1 --------------");
-        NativeDiscovery.discovery();
-        assertTrue(NativeDiscovery.isDiscovered());
+        NativeDiscovery.start();
+        assertTrue(NativeDiscovery.discovered());
     }
 
     @Test

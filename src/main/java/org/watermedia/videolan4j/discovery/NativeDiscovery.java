@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
 
 public final class NativeDiscovery {
-    private static final Marker IT = MarkerManager.getMarker("NativeDiscovery");
+    public static final Marker IT = MarkerManager.getMarker("NativeDiscovery");
     private static final ServiceLoader<IProvider> PROVIDERS = ServiceLoader.load(IProvider.class);
     private static Map<String, Reference<NativeLibrary>> jnaLibraries;
     private static Map<String, List<String>> jnaSearchPaths;

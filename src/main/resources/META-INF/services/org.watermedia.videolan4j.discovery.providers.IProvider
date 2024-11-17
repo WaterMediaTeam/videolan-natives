@@ -1,3 +1,4 @@
+org.watermedia.videolan4j.discovery.providers.UserProvider
 org.watermedia.videolan4j.discovery.providers.WinProvider
 org.watermedia.videolan4j.discovery.providers.SystemProvider
 org.watermedia.videolan4j.discovery.providers.MacProvider

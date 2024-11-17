@@ -11,8 +11,9 @@ Please consider use and support VLCJ.
 - Callback spec and management
 - Buffer allocation
 
-## ENV ARGUMENTS
-
+## JVM ARGUMENTS
+- `vlc4j.userDiscoveryPath=/usr/bin/custom.videolan.path/path`
+  - Set custom VLC path (for spaces use `%20`). Example: ``/path/folder with spaces/vlc`` -> `/path/folder%20with%20spaces/vlc`
 
 ### LICENSE
 **VideoLan4J** is under GLPv3 following upstream (vlcj) license

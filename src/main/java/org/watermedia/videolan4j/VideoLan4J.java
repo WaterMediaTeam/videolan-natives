@@ -29,6 +29,7 @@ public class VideoLan4J {
     public static final Version LIBVLC_MAX_VERSION = new Version("3.1.0");
     public static final int LIBVLC_BUFFER_ALIGNMENT = 32;
 
+    public static final String VLC4J_USER_DISCOVERY_PATH = System.getProperty("vlc4j.userDiscoveryPath");
 
     public static final int PID = Platform.isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();
 

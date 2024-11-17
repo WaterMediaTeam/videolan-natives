@@ -23,12 +23,11 @@ public class VideoLan4J {
 
     public static final String LIBVLC_NAME = Platform.isWindows() ? "libvlc" : "vlc";
     public static final String LIBVLCCORE_NAME = Platform.isWindows() ? "libvlccore" : "vlccore";
+    public static final String LIBVLC_PLUGIN_ENV_NAME = "VLC_PLUGIN_PATH";
+
     public static final Version LIBVLC_MIN_VERSION = new Version("3.0.0");
     public static final Version LIBVLC_MAX_VERSION = new Version("3.1.0");
-    public static final String LIBVLC_PLUGIN_ENV_NAME = "VLC_PLUGIN_PATH";
     public static final int LIBVLC_BUFFER_ALIGNMENT = 32;
-
-    public static final boolean VLC4J_DISABLE_MAC_WA = Boolean.parseBoolean(System.getProperty("videolan4j.disableMacWorkarounds"));
 
 
     public static final int PID = Platform.isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();

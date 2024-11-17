@@ -12,7 +12,7 @@ Please consider use and support VLCJ.
 - Buffer allocation
 
 ## ENV ARGUMENTS
-- `Dvideolan4j.disableMacWorkarounds=true` | disables MacOS workarounds
+
 
 ### LICENSE
 **VideoLan4J** is under GLPv3 following upstream (vlcj) license

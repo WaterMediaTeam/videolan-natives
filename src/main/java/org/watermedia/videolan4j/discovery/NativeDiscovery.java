@@ -120,7 +120,7 @@ public final class NativeDiscovery {
     private static boolean setSearchPath(DiscoveryEnv env, String path) {
         NativeLibrary.addSearchPath(VideoLan4J.LIBVLC_NAME, path);
         // MAC WORKAROUND: PRELOADS VLCCore
-        if (env == DiscoveryEnv.MACOS && !VideoLan4J.VLC4J_DISABLE_MAC_WA) {
+        if (env == DiscoveryEnv.MACOS) {
             NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
             NativeLibrary.getInstance(VideoLan4J.LIBVLCCORE_NAME);
         }

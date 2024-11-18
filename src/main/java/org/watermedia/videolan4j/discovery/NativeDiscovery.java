@@ -102,7 +102,7 @@ public final class NativeDiscovery {
 
         for (final File child: rootFiles) {
             if (child.isDirectory()) {
-                if (child.getName().contains("vlc")) {
+                if (child.getName().toLowerCase().contains("vlc")) {
                     LOGGER.info(IT, "Opening '{}'", rootDirectory.toString());
                     String r = start$searchPath(env, child.getAbsolutePath());
                     if (r != null) return r;

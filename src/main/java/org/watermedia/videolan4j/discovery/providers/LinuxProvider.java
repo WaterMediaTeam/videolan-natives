@@ -10,7 +10,7 @@ public class LinuxProvider implements IProvider {
 
     @Override
     public Priority priority() {
-        return Priority.HIGHEST;
+        return Priority.NORMAL;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class UserProvider implements IProvider {
 
     @Override
     public Priority priority() {
-        return Priority.OVERWRITE;
+        return Priority.HIGH;
     }
 
     @Override

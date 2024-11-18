@@ -101,7 +101,14 @@ public final class NativeDiscovery {
         final Set<String> matches = new HashSet<>(patterns.length);
 
         for (final File child: rootFiles) {
-            if (child.isDirectory()) continue; // ignore dirs
+            if (child.isDirectory()) {
+                if (child.getName().contains("vlc")) {
+                    LOGGER.info(IT, "Opening '{}'", rootDirectory.toString());
+                    String r = start$searchPath(env, child.getAbsolutePath());
+                    if (r != null) return r;
+                }
+                continue; // ignore dirs
+            }
             for (Pattern pattern: patterns) {
                 Matcher matcher = pattern.matcher(child.getName());
                 if (matcher.matches()) {

@@ -11,6 +11,25 @@ permissions:
 jobs:
   building:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Tag
+        uses: actions/checkout@v3
+
+      - name: Set up JDK (21)
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build CI
+        run: ./gradlew build
+
+  publishing:
+    needs: ['building']
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Tag
@@ -25,8 +44,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Release on Maven
-        run: ./gradlew publish
+      - name: Release to Github packages
+        run: ./gradlew publish --parallel
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

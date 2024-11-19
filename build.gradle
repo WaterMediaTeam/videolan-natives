@@ -69,7 +69,7 @@ publishing {
     }
     repositories {
         maven {
-            name = "GitHub Packages"
+            name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/${github}")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")

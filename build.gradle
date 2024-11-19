@@ -66,14 +66,14 @@ publishing {
 
             from components.java
         }
-        repositories {
-            maven {
-                name = "GitHub Packages"
-                url = uri("https://maven.pkg.github.com/${github}")
-                credentials {
-                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                    password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
-                }
+    }
+    repositories {
+        maven {
+            name = "GitHub Packages"
+            url = uri("https://maven.pkg.github.com/${github}")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }

@@ -1,4 +1,4 @@
-name: ReleaseJar
+name: Publish to Maven
 
 on:
   push:

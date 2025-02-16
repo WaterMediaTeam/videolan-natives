@@ -13,7 +13,7 @@ public class IOTools {
      * @param path path to the symlink
      * @return File of the real path or the argument-ed path
      */
-    public static File getFixedFile(Path path) {
+    public static File getRealFile(Path path) {
         if (!Files.isSymbolicLink(path)) return path.toFile();
         try {
             File symLink = Files.readSymbolicLink(path).toFile();

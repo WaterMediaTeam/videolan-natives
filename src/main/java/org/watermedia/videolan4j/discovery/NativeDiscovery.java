@@ -89,7 +89,7 @@ public final class NativeDiscovery {
 
     private static String start$searchPath(final DiscoveryEnv env, final String directory) {
         final File rootDirectory = new File(directory);
-        final File[] rootFiles = IOTools.getFixedFile(rootDirectory.toPath()).listFiles();
+        final File[] rootFiles = IOTools.getRealFile(rootDirectory.toPath()).listFiles();
         if (rootFiles == null) {
             LOGGER.debug(IT, "Cannot search on path '{}', {}", directory, new DebugDirectory(rootDirectory));
             return null;

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 
 import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
 
-public class IOTools {
+public class Tools {
     /**
      * Returns the real path of the symlink
      * if fails or wasn't a symlink, it returns the exact same path as a File

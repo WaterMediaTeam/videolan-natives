@@ -1,14 +1,12 @@
 package org.watermedia.videolan4j.discovery;
 
 import com.sun.jna.NativeLibrary;
-import com.sun.jna.StringArray;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.watermedia.videolan4j.VideoLan4J;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
-import org.watermedia.videolan4j.binding.lib.LibVlcEssential;
 import org.watermedia.videolan4j.discovery.providers.IProvider;
-import org.watermedia.videolan4j.tools.IOTools;
+import org.watermedia.videolan4j.tools.Tools;
 
 import java.io.File;
 import java.lang.ref.Reference;
@@ -89,7 +87,7 @@ public final class NativeDiscovery {
 
     private static String start$searchPath(final DiscoveryEnv env, final String directory) {
         final File rootDirectory = new File(directory);
-        final File[] rootFiles = IOTools.getRealFile(rootDirectory.toPath()).listFiles();
+        final File[] rootFiles = Tools.getRealFile(rootDirectory.toPath()).listFiles();
         if (rootFiles == null) {
             LOGGER.debug(IT, "Cannot search on path '{}', {}", directory, new DebugDirectory(rootDirectory));
             return null;
@@ -152,13 +150,13 @@ public final class NativeDiscovery {
 
     private static boolean testInstance() {
         try {
-            libvlc_instance_t instance = LibVlcEssential.libvlc_new(0, new StringArray(new String[0]));
+            libvlc_instance_t instance = VideoLan4J.createInstance();
             if (instance == null)
                 return false;
 
-            LibVlcEssential.libvlc_release(instance);
+            VideoLan4J.releaseInstance(instance);
             // No matter the order, JVM will throw a NoClassDefFoundError when methods don't match
-            if (VideoLan4J.getVideoLanVersion().inRange(VideoLan4J.LIBVLC_MIN_VERSION, VideoLan4J.LIBVLC_MAX_VERSION)) {
+            if (VideoLan4J.isSupportedVersion()) {
                 return true;
             }
         } catch (Error e) {

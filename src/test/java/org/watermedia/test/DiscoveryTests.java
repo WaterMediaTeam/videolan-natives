@@ -18,13 +18,15 @@ import java.util.regex.Pattern;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
 
 public class DiscoveryTests {
     private static final Marker IT = MarkerManager.getMarker(DiscoveryTests.class.getSimpleName());
     private static final Pattern ROOT_PATH = Pattern.compile(Platform.isWindows() ? "^[a-z]:\\\\[\\S\\s]+" : "^/\\S+", Pattern.CASE_INSENSITIVE);
 
     @Test
-    public void test$userCustomPath() {
+    public void test$checkClassLoaderAndNativeSkipping() {
+        VideoLan4J.checkClassLoader(null);
     }
 
     @Test

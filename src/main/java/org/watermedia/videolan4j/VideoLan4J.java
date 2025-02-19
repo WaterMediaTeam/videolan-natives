@@ -2,11 +2,13 @@ package org.watermedia.videolan4j;
 
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
+import com.sun.jna.StringArray;
 import com.sun.jna.platform.win32.Kernel32;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
 import org.watermedia.videolan4j.binding.internal.libvlc_media_t;
 import org.watermedia.videolan4j.binding.lib.LibC;
 import org.watermedia.videolan4j.binding.lib.LibVlcEssential;
+import org.watermedia.videolan4j.tools.Buffers;
 import org.watermedia.videolan4j.tools.Version;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -127,5 +129,17 @@ public class VideoLan4J {
 
     public static Version getVideoLanVersion() {
         return new Version(LibVlcEssential.libvlc_get_version());
+    }
+
+    public static libvlc_instance_t createInstance(String... args) {
+        return LibVlcEssential.libvlc_new(0, new StringArray(args));
+    }
+
+    public static void releaseInstance(libvlc_instance_t instance) {
+        LibVlcEssential.libvlc_release(instance);
+    }
+
+    public static boolean isSupportedVersion() {
+        return getVideoLanVersion().inRange(LIBVLC_MIN_VERSION, LIBVLC_MAX_VERSION);
     }
 }

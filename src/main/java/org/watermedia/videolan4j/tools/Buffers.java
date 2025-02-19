@@ -1,5 +1,8 @@
-package org.watermedia.videolan4j;
+package org.watermedia.videolan4j.tools;
 
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+import org.watermedia.videolan4j.VideoLan4J;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -9,14 +12,25 @@ import java.nio.ByteOrder;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
+
 /**
  * Factory for LibVLC general usages
  */
-public class ByteBufferFactory {
+public class Buffers {
+    private static final Marker IT = MarkerManager.getMarker(Buffers.class.getSimpleName());
     private static final Unsafe UNSAFE;
     private static final long ADDRESS_FIELD_OFFSET;
-    static Function<Integer, ByteBuffer> BUFFER_ALLOCATOR = ByteBufferFactory::alloc1;
-    static Consumer<ByteBuffer> BUFFER_DEALLOCATOR = ByteBufferFactory::dealloc1;
+    private static Function<Integer, ByteBuffer> BUFFER_ALLOCATOR = Buffers::alloc1;
+    private static Consumer<ByteBuffer> BUFFER_DEALLOCATOR = Buffers::dealloc1;
+
+    public static void setBufferAllocator(Function<Integer, ByteBuffer> bufferAllocator) {
+        BUFFER_ALLOCATOR = bufferAllocator;
+    }
+
+    public static void setBufferDeallocator(Consumer<ByteBuffer> bufferDeallocator) {
+        BUFFER_DEALLOCATOR = bufferDeallocator;
+    }
 
     /**
      * Allocates a new byte buffer.
@@ -25,7 +39,11 @@ public class ByteBufferFactory {
      * @return aligned byte buffer
      */
     public static ByteBuffer alloc(int size) {
-        return BUFFER_ALLOCATOR.apply(size);
+        ByteBuffer buffer = BUFFER_ALLOCATOR.apply(size);
+        if (!isAligned(address(buffer))) {
+            LOGGER.warn(IT, "Buffer address {} with size {} is unalighed, this might cause performance issues", address(buffer), size);
+        }
+        return buffer;
     }
 
     /**

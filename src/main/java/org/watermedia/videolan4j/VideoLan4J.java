@@ -66,19 +66,19 @@ public class VideoLan4J {
      * Replaces the default direct bytebuffer builder
      * in favor of better, modern or even more direct implementations
      *
-     * @param bufferBuilder function implementation
+     * @param bufferAllocator function implementation
      */
-    public static void setBufferAllocator(Function<Integer, ByteBuffer> bufferBuilder) {
-        ByteBufferFactory.BUFFER_ALLOCATOR = bufferBuilder;
+    public static void setBufferAllocator(Function<Integer, ByteBuffer> bufferAllocator) {
+        Buffers.setBufferAllocator(bufferAllocator);
     }
 
     /**
      * Replaces the default bytebuffer releaser
      * in favor of better, modern or even more direct implementation
-     * @param bufferReleaser consumer implementation
+     * @param bufferDeallocator consumer implementation
      */
-    public static void setBufferDeallocator(Consumer<ByteBuffer> bufferReleaser) {
-        ByteBufferFactory.BUFFER_DEALLOCATOR = bufferReleaser;
+    public static void setBufferDeallocator(Consumer<ByteBuffer> bufferDeallocator) {
+        Buffers.setBufferDeallocator(bufferDeallocator); ;
     }
 
     /**

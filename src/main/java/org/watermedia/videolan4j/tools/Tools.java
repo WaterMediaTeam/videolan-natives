@@ -3,6 +3,7 @@ package org.watermedia.videolan4j.tools;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
 
@@ -21,5 +22,17 @@ public class Tools {
             return symLink;
         } catch (Exception ignored) {}
         return path.toFile();
+    }
+
+    public static <T> T[] toArray(T... array) {
+        return array;
+    }
+
+    public static Pattern[] patterns(String... patterns) {
+        Pattern[] result = new Pattern[patterns.length];
+        for (int i = 0; i < patterns.length; i++) {
+            result[i] = Pattern.compile(patterns[i]);
+        }
+        return result;
     }
 }

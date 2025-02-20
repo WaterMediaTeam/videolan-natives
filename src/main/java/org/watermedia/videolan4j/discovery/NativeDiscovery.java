@@ -28,6 +28,10 @@ public final class NativeDiscovery {
     private static boolean attempted = false;
     private static String discoveredPath;
 
+    /**
+     * Checks if VLC binaries are founded by the discovery, this doesn't mean
+     * VLC is not founded, JNA can automatically found VLC binaries on default paths
+     */
     public static boolean discovered() {
         return discovered;
     }
@@ -47,9 +51,9 @@ public final class NativeDiscovery {
         }
 
         // environment is determinist, C++ compiled code is not a "java like"
-        final DiscoveryEnv env = DiscoveryEnv.get();
+        final Environment env = Environment.get();
         if (env == null) {
-            LOGGER.info(IT, "Unsupported environment '{}'", DiscoveryEnv.osName());
+            LOGGER.info(IT, "Unsupported environment '{}'", Environment.osName());
             attempted = true;
             return false;
         }
@@ -91,7 +95,7 @@ public final class NativeDiscovery {
         return false;
     }
 
-    private static String start$searchPath(final DiscoveryEnv env, final String directory) {
+    private static String start$searchPath(final Environment env, final String directory) {
         final File rootDirectory = new File(directory);
         final File[] rootFiles = Tools.getRealFile(rootDirectory.toPath()).listFiles();
         if (rootFiles == null) {
@@ -101,7 +105,7 @@ public final class NativeDiscovery {
 
         LOGGER.info(IT, "Searching on '{}'", rootDirectory.toString());
 
-        final Pattern[] patterns = env.binaryPatterns();
+        final Pattern[] patterns = env.filePatterns;
         final Set<String> matches = new HashSet<>(patterns.length);
 
         for (final File child: rootFiles) {
@@ -127,10 +131,10 @@ public final class NativeDiscovery {
         return null;
     }
 
-    private static boolean setSearchPath(DiscoveryEnv env, String path) {
+    private static boolean setSearchPath(Environment env, String path) {
         NativeLibrary.addSearchPath(VideoLan4J.LIBVLC_NAME, path);
         // MAC WORKAROUND: PRELOADS VLCCore
-        if (env == DiscoveryEnv.MACOS) {
+        if (env == Environment.MACOS) {
             NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
             NativeLibrary.getInstance(VideoLan4J.LIBVLCCORE_NAME);
         }
@@ -141,12 +145,12 @@ public final class NativeDiscovery {
         return true;
     }
 
-    private static boolean setPluginPath(DiscoveryEnv env, String path) {
+    private static boolean setPluginPath(Environment env, String path) {
         File f = new File(path);
-        for (String pluginsPath: env.pluginPaths()) {
+        for (String pluginsPath: env.pluginPaths) {
             Path p = f.toPath().resolve(pluginsPath);
             if (p.toFile().exists()) {
-                return env.setEnvironmentVar(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME, p.toString());
+                return env.setVar(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME, p.toString());
             }
         }
 

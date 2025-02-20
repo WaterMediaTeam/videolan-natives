@@ -33,8 +33,6 @@ public class VideoLan4J {
 
     public static final String VLC4J_USER_DISCOVERY_PATH = System.getProperty("vlc4j.userDiscoveryPath");
 
-    public static final int PID = Platform.isWindows() ? Kernel32.INSTANCE.GetCurrentProcessId() : LibC.INSTANCE.getpid();
-
     /**
      * Encodes {@link URI} into s MRL string<br>
      * The {@link File#toString()} method returns the <code>file:///</code> protocol just with one slash instead of three.

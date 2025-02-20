@@ -40,6 +40,12 @@ public final class NativeDiscovery {
         if (discovered) return true;
         if (attempted) return false;
 
+        // Check if VLC is already founded by JNA (binaries are on default paths)
+        if (testInstance()) {
+            discovered = true;
+            attempted = false;
+        }
+
         // environment is determinist, C++ compiled code is not a "java like"
         final DiscoveryEnv env = DiscoveryEnv.get();
         if (env == null) {

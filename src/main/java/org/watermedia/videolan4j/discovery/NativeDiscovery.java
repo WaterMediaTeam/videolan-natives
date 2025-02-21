@@ -48,9 +48,10 @@ public final class NativeDiscovery {
         if (testInstance()) {
             discovered = true;
             attempted = false;
+            return true;
         }
 
-        // environment is determinist, C++ compiled code is not a "java like"
+        // environment is determinist, C++ compiled code is not "java like"
         final Environment env = Environment.get();
         if (env == null) {
             LOGGER.info(IT, "Unsupported environment '{}'", Environment.osName());
@@ -165,7 +166,7 @@ public final class NativeDiscovery {
                 return false;
 
             VideoLan4J.releaseInstance(instance);
-            // No matter the order, JVM will throw a NoClassDefFoundError when methods don't match
+
             if (VideoLan4J.isSupportedVersion()) {
                 return true;
             }

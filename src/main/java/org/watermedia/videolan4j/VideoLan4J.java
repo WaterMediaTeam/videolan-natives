@@ -3,10 +3,8 @@ package org.watermedia.videolan4j;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.StringArray;
-import com.sun.jna.platform.win32.Kernel32;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
 import org.watermedia.videolan4j.binding.internal.libvlc_media_t;
-import org.watermedia.videolan4j.binding.lib.LibC;
 import org.watermedia.videolan4j.binding.lib.LibVlcEssential;
 import org.watermedia.videolan4j.tools.Buffers;
 import org.watermedia.videolan4j.tools.Version;
@@ -130,6 +128,7 @@ public class VideoLan4J {
     }
 
     public static libvlc_instance_t createInstance(String... args) {
+        // TODO: check if argc must be args length (array.length)
         return LibVlcEssential.libvlc_new(0, new StringArray(args));
     }
 

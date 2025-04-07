@@ -122,6 +122,6 @@ public enum Chroma {
     public abstract int[] getLines(int height);
 
     public String canonical() {
-        return this.name().toLowerCase();
+        return this.name();
     }
 }

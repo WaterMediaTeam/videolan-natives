@@ -44,21 +44,6 @@ public final class NativeDiscovery {
         if (discovered) return true;
         if (attempted) return false;
 
-        // Check if VLC is already founded by JNA (binaries are on default paths)
-        if (testInstance()) {
-            discovered = true;
-            attempted = false;
-            return true;
-        } else {
-            LOGGER.info(IT, "VLC not founded by JNA");
-            // Cleanup JNA search paths
-            if (testCleanup()) {
-                LOGGER.info(IT, "JNA search paths cleaned");
-            } else {
-                LOGGER.error(IT, "Failed to clean JNA search paths");
-            }
-        }
-
         // environment is determinist, C++ compiled code is not "java like"
         final Environment env = Environment.get();
         if (env == null) {

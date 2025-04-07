@@ -49,6 +49,14 @@ public final class NativeDiscovery {
             discovered = true;
             attempted = false;
             return true;
+        } else {
+            LOGGER.info(IT, "VLC not founded by JNA");
+            // Cleanup JNA search paths
+            if (testCleanup()) {
+                LOGGER.info(IT, "JNA search paths cleaned");
+            } else {
+                LOGGER.error(IT, "Failed to clean JNA search paths");
+            }
         }
 
         // environment is determinist, C++ compiled code is not "java like"

@@ -142,9 +142,12 @@ public final class NativeDiscovery {
     private static boolean setPluginPath(Environment env, String path) {
         File f = new File(path);
         for (String pluginsPath: env.pluginPaths) {
-            Path p = f.toPath().resolve(pluginsPath);
-            if (p.toFile().exists()) {
+            File p = f.toPath().resolve(pluginsPath).toFile();
+            if (p.exists() && p.isDirectory() && p.canRead() && p.canExecute()) {
+                LOGGER.info(IT, "Setting plugins path to '{}'", p.toString());
                 return env.setVar(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME, p.toString());
+            } else {
+                LOGGER.error(IT, "Plugins path '{}' doesn't exist or cannot be accessed, {}", p.toString(), new DebugDirectory(p));
             }
         }
 
@@ -154,7 +157,14 @@ public final class NativeDiscovery {
 
     private static boolean testInstance() {
         try {
-            libvlc_instance_t instance = VideoLan4J.createInstance();
+            libvlc_instance_t instance = VideoLan4J.createInstance(
+                    "--no-quiet",
+                    "--log-verbose=3",
+                    "--file-logging",
+                    "--logfile=" + new File("logs/videolan-discovery.log").getAbsolutePath(),
+                    "--verbose=2"
+            );
+
             if (instance == null)
                 return false;
 

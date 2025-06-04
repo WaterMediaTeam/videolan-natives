@@ -142,7 +142,7 @@ public final class NativeDiscovery {
     private static boolean setPluginPath(Environment env, String path) {
         File f = new File(path);
         for (String pluginsPath: env.pluginPaths) {
-            File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile();
+            File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile().getAbsoluteFile();
             if (p.exists() && p.isDirectory() && p.canRead() && p.canExecute()) {
                 LOGGER.info(IT, "Setting plugins path to '{}'", p.toString());
                 return env.setVar(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME, p.toString());

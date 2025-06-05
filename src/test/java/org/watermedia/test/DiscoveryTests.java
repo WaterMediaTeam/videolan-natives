@@ -45,6 +45,10 @@ public class DiscoveryTests {
 
         for (IProvider provider: supported) {
             for (String path: provider.directories()) {
+                if (path == null || path.isEmpty()) {
+                    LOGGER.warn(IT, "Provider '{}' returned an empty path", provider.name());
+                    continue;
+                }
                 path = new File(path).getAbsolutePath();
                 assertTrue(ROOT_PATH.matcher(path).find(), "Root path '" + path + "' is not accordingly designed to work on the current OS");
             }

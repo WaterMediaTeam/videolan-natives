@@ -27,7 +27,8 @@ public class LinuxProvider implements IProvider {
                 "/usr/local/lib",
                 "/usr/local/lib/vlc",
                 "/bin",
-                "/bin/vlc"
+                "/bin/vlc",
+                System.getenv("LD_LIBRARY_PATH")
         };
     }
 }

@@ -62,7 +62,7 @@ public enum Environment {
     public boolean setVar(String k, String v) {
         switch (this) {
             case WINDOWS: return LibC.INSTANCE._putenv(k + "=" + v) == 0;
-            default: return LibC.INSTANCE.setenv(k, k, 1) == 0;
+            default: return LibC.INSTANCE.setenv(k, v, 1) == 0;
         }
     }
 }

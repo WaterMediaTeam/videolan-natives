@@ -4,8 +4,10 @@ import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.StringArray;
 import org.watermedia.videolan4j.binding.internal.libvlc_instance_t;
+import org.watermedia.videolan4j.binding.internal.libvlc_media_player_t;
 import org.watermedia.videolan4j.binding.internal.libvlc_media_t;
 import org.watermedia.videolan4j.binding.lib.LibVlcEssential;
+import org.watermedia.videolan4j.discovery.NativeDiscovery;
 import org.watermedia.videolan4j.tools.Buffers;
 import org.watermedia.videolan4j.tools.Version;
 import org.apache.logging.log4j.LogManager;
@@ -31,12 +33,60 @@ public class VideoLan4J {
 
     public static final String VLC4J_USER_DISCOVERY_PATH = System.getProperty("vlc4j.userDiscoveryPath");
 
+    public static synchronized boolean load() { return NativeDiscovery.start(); }
+    public static boolean isDiscovered() { return NativeDiscovery.discovered(); }
+    public static String discoveryPath() { return NativeDiscovery.discoveryPath(); }
+
+    /**
+     * Create a new libvlc instance with the given arguments.
+     * <p>
+     * The arguments are passed to the libvlc instance, which can be used to configure it.
+     *
+     * @param args command-line-type arguments
+     * @return a new libvlc instance
+     */
+    public static libvlc_instance_t createInstance(String... args) {
+        return LibVlcEssential.libvlc_new(0, new StringArray(args)); // TODO: check if argc must be args length (array.length)
+    }
+
+    /**
+     * Release the given libvlc instance.
+     */
+    public static void releaseInstance(libvlc_instance_t instance) {
+        LibVlcEssential.libvlc_release(instance);
+    }
+
+    /**
+     * Create a new media player instance for the given libvlc instance.
+     * <p>
+     * The media player can be used to play media files, streams, etc.
+     *
+     * @param instance the libvlc instance to create the media player for
+     * @return a new media player instance
+     */
+    public static libvlc_media_player_t createMediaPlayer(libvlc_instance_t instance) {
+        return LibVlc.libvlc_media_player_new(instance);
+    }
+
+    /**
+     * Release the given media player instance.
+     * <p>
+     * This method decrements the reference count of the media player and destroys it if the count reaches zero.
+     *
+     * @param player the media player instance to release
+     */
+    public static void releaseMediaPlayer(libvlc_media_player_t player) {
+        if (player != null) {
+            LibVlc.libvlc_media_player_release(player);
+        }
+    }
+
     /**
      * Encodes {@link URI} into s MRL string<br>
      * The {@link File#toString()} method returns the <code>file:///</code> protocol just with one slash instead of three.
      * Method does a special handling for that
      */
-    public static libvlc_media_t getMediaInstance(libvlc_instance_t vlc, URI uri) {
+    public static libvlc_media_t createMediaInstance(libvlc_instance_t vlc, URI uri) {
         return uri.getScheme().equals("file")
                 ? LibVlc.libvlc_media_new_path(vlc, new File(uri.getPath()).toString())
                 : LibVlc.libvlc_media_new_location(vlc, uri.toString());
@@ -45,8 +95,21 @@ public class VideoLan4J {
     /**
      * Encodes {@link File} into a MRL string
      */
-    public static libvlc_media_t getMediaInstance(libvlc_instance_t vlc, File url) {
+    public static libvlc_media_t createMediaInstance(libvlc_instance_t vlc, File url) {
         return LibVlc.libvlc_media_new_path(vlc, url.toString());
+    }
+
+    /**
+     * Releases the given media instance.
+     * <p>
+     * This method decrements the reference count of the media and destroys it if the count reaches zero.
+     *
+     * @param media the media instance to release
+     */
+    public static void releaseMediaInstance(libvlc_media_t media) {
+        if (media != null) {
+            LibVlc.libvlc_media_release(media);
+        }
     }
 
     /**
@@ -76,7 +139,7 @@ public class VideoLan4J {
      * @param bufferDeallocator consumer implementation
      */
     public static void setBufferDeallocator(Consumer<ByteBuffer> bufferDeallocator) {
-        Buffers.setBufferDeallocator(bufferDeallocator); ;
+        Buffers.setBufferDeallocator(bufferDeallocator);
     }
 
     /**
@@ -123,20 +186,11 @@ public class VideoLan4J {
         return (pointer != null) ? pointer.getString(0) : null;
     }
 
-    public static Version getVideoLanVersion() {
+    public static Version getLibVersion() {
         return new Version(LibVlcEssential.libvlc_get_version());
     }
 
-    public static libvlc_instance_t createInstance(String... args) {
-        // TODO: check if argc must be args length (array.length)
-        return LibVlcEssential.libvlc_new(0, new StringArray(args));
-    }
-
-    public static void releaseInstance(libvlc_instance_t instance) {
-        LibVlcEssential.libvlc_release(instance);
-    }
-
-    public static boolean isSupportedVersion() {
-        return getVideoLanVersion().inRange(LIBVLC_MIN_VERSION, LIBVLC_MAX_VERSION);
+    public static boolean isLibSupported() {
+        return getLibVersion().inRange(LIBVLC_MIN_VERSION, LIBVLC_MAX_VERSION);
     }
 }

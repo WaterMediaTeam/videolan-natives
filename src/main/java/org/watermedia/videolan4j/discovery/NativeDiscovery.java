@@ -11,7 +11,6 @@ import org.watermedia.videolan4j.tools.Tools;
 import java.io.File;
 import java.lang.ref.Reference;
 import java.lang.reflect.Field;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +67,7 @@ public final class NativeDiscovery {
                     if (testInstance()) {
                         discoveredPath = directory;
                         discovered = true;
-                        LOGGER.info(IT, "Founded VLC {} in '{}' using '{}'", VideoLan4J.getVideoLanVersion(), directory, provider.name());
+                        LOGGER.info(IT, "Founded VLC {} in '{}' using '{}'", VideoLan4J.getLibVersion(), directory, provider.name());
                         return true;
                     // Explicit failed to load
                     } else {
@@ -99,7 +98,7 @@ public final class NativeDiscovery {
 
         LOGGER.info(IT, "Searching on '{}'", rootDirectory.toString());
 
-        final Pattern[] patterns = env.filePatterns;
+        final Pattern[] patterns = env.getFilePatterns();
         final Set<String> matches = new HashSet<>(patterns.length);
 
         for (final File child: rootFiles) {
@@ -141,7 +140,7 @@ public final class NativeDiscovery {
 
     private static boolean setPluginPath(Environment env, String path) {
         File f = new File(path);
-        for (String pluginsPath: env.pluginPaths) {
+        for (String pluginsPath: env.getPluginPaths()) {
             File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile().getAbsoluteFile();
             if (p.exists() && p.isDirectory() && p.canRead() && p.canExecute()) {
                 LOGGER.info(IT, "Setting plugins path to '{}'", p.toString());
@@ -170,7 +169,7 @@ public final class NativeDiscovery {
 
             VideoLan4J.releaseInstance(instance);
 
-            if (VideoLan4J.isSupportedVersion()) {
+            if (VideoLan4J.isLibSupported()) {
                 return true;
             }
         } catch (Error e) {
@@ -192,17 +191,6 @@ public final class NativeDiscovery {
                 libraries.setAccessible(true);
                 jnaLibraries = (Map<String, Reference<NativeLibrary>>) libraries.get(null);
             }
-
-            Object rm1 = jnaLibraries.remove(VideoLan4J.LIBVLC_NAME);
-            Object rm2 = jnaLibraries.remove(VideoLan4J.LIBVLCCORE_NAME);
-            Object rm3 = jnaSearchPaths.remove(VideoLan4J.LIBVLC_NAME);
-            Object rm4 = jnaSearchPaths.remove(VideoLan4J.LIBVLCCORE_NAME);
-
-//            boolean removed = rm1 != null && rm2 != null && rm3 != null && rm4 != null;
-//            if (removed) {
-//                LOGGER.warn(IT, "JNA search paths got cleaned, search must continue");
-//            }
-//            return removed;
             return true;
         } catch (Exception e) {
             LOGGER.error(IT, "Failed to clean JNA search paths, search must be stopped!", e);

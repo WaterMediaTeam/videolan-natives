@@ -56,6 +56,14 @@ public enum Environment {
         this.pluginPaths = pluginPaths;
     }
 
+    public Pattern[] getFilePatterns() {
+        return filePatterns;
+    }
+
+    public String[] getPluginPaths() {
+        return pluginPaths;
+    }
+
     /**
      * Sets an environment var, implementation might varies depending the OS
      */

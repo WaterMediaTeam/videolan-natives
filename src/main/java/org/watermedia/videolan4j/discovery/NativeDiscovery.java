@@ -89,7 +89,7 @@ public final class NativeDiscovery {
     }
 
     private static String start$searchPath(final Environment env, final String directory) {
-        final File rootDirectory = new File(directory);
+        final File rootDirectory = new File(directory.endsWith(File.separatorChar + "bin") || directory.endsWith(File.separatorChar + "lib") ? directory : directory.substring(0, directory.lastIndexOf(File.separatorChar)));
         final File[] rootFiles = Tools.getRealFile(rootDirectory.toPath()).listFiles();
         if (rootFiles == null) {
             LOGGER.debug(IT, "Cannot search on path '{}', {}", directory, new DebugDirectory(rootDirectory));
@@ -103,7 +103,7 @@ public final class NativeDiscovery {
 
         for (final File child: rootFiles) {
             if (child.isDirectory()) {
-                if (child.getName().toLowerCase().contains("vlc")) {
+                if (child.getName().toLowerCase().contains("vlc") || child.getName().toLowerCase().contains("bin") || child.getName().toLowerCase().contains("lib")) {
                     String r = start$searchPath(env, child.getAbsolutePath());
                     if (r != null) return r;
                 }

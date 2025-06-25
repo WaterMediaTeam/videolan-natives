@@ -2,6 +2,8 @@ package org.watermedia.videolan4j.discovery.providers;
 
 import com.sun.jna.Platform;
 
+import java.io.File;
+
 public class LinuxProvider implements IProvider {
     @Override
     public boolean supported() {
@@ -28,7 +30,8 @@ public class LinuxProvider implements IProvider {
                 "/usr/local/lib/vlc",
                 "/bin",
                 "/bin/vlc",
-                System.getenv("LD_LIBRARY_PATH")
+                System.getenv("LD_LIBRARY_PATH"),
+                new File(System.getenv("LD_LIBRARY_PATH")).toPath().resolve("../lib").toAbsolutePath().toString()
         };
     }
 }

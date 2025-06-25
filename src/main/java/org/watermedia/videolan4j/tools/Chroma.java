@@ -1,5 +1,7 @@
 package org.watermedia.videolan4j.tools;
 
+import java.nio.charset.StandardCharsets;
+
 // https://wiki.videolan.org/Chroma/
 public enum Chroma {
     /**
@@ -121,7 +123,7 @@ public enum Chroma {
 
     public abstract int[] getLines(int height);
 
-    public String canonical() {
-        return this.name();
+    public byte[] chroma() {
+        return this.name().getBytes(StandardCharsets.UTF_8);
     }
 }

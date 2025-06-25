@@ -18,20 +18,17 @@ public class LinuxProvider implements IProvider {
     @Override
     public String[] directories() {
         return new String[] {
-                "/usr/lib/x86_64-linux-gnu",
-                "/usr/lib64",
-                "/usr/local/lib64",
-                "/usr/lib/i386-linux-gnu",
                 "/usr/lib",
-                "/usr/lib/vlc",
-                "/usr/bin/",
-                "/usr/bin/vlc",
+                "/usr/lib64",
+                "/usr/lib/i386-linux-gnu",
+                "/usr/lib/x86_64-linux-gnu",
+                "/usr/bin",
+                "/usr/bin64",
                 "/usr/local/lib",
-                "/usr/local/lib/vlc",
+                "/usr/local/lib64",
                 "/bin",
-                "/bin/vlc",
-                System.getenv("LD_LIBRARY_PATH"),
-                new File(System.getenv("LD_LIBRARY_PATH")).toPath().resolve("../lib").toAbsolutePath().toString()
+                "/lib",
+                System.getenv("LD_LIBRARY_PATH")
         };
     }
 }

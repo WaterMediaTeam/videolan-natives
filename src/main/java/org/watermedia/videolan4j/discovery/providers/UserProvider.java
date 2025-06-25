@@ -35,7 +35,7 @@ public class UserProvider implements IProvider {
     static {
         String decodedPath;
         try {
-            if (VLC4J_USER_DISCOVERY_PATH == null) throw new NullPointerException();
+            if (VLC4J_USER_DISCOVERY_PATH == null) throw new NullPointerException("Not user path defined on JVM arguments");
             decodedPath = URLDecoder.decode(VLC4J_USER_DISCOVERY_PATH, StandardCharsets.UTF_8.toString());
         } catch (Exception e) {
             LOGGER.debug(IT, "Cannot decode custom user path", e);

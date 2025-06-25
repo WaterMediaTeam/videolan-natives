@@ -19,7 +19,14 @@ public class SystemProvider implements IProvider {
     public String[] directories() { // I JUST KEEP THIS FOR LINUX USERS... IF SOME WEIRDO INSTALLS ALL THEIR STUFF ON SYSTEM PATHS
         String path = System.getenv("PATH");
         if (path != null) {
-            return path.split(File.pathSeparator);
+            // SPECIAL PRE-COMPUTE TO JUMP BACK LIB OR BIN FOLDERS, SO DISCOVERY CAN SEARCH IN BOTH
+            String[] paths = path.split(File.pathSeparator);
+            for (int i = 0; i < paths.length; i++) {
+                if (paths[i].endsWith(File.separatorChar + "bin") || paths[i].endsWith(File.pathSeparator + "lib")) {
+                    paths[i] = paths[i].substring(File.pathSeparator.length() + 3);
+                }
+            }
+            return paths;
         } else {
             return new String[0];
         }

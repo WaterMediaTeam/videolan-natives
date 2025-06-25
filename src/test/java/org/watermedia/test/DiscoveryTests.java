@@ -26,7 +26,7 @@ public class DiscoveryTests {
 
     @Test
     public void test$checkClassLoaderAndNativeSkipping() {
-        VideoLan4J.checkClassLoader(null);
+        VideoLan4J.checkClassLoader(Thread.currentThread().getContextClassLoader());
     }
 
     @Test

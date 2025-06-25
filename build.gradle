@@ -10,9 +10,7 @@ base {
 }
 
 test {
-    useJUnitPlatform()
-    // FIXME: gradle doesn't let me set jvm arguments on tests
-    // jvmArgs("-Dvlc4j.userDiscoveryPath=c:\\users\\J-RAP")
+//    useJUnitPlatform()
 }
 
 java {

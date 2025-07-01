@@ -69,7 +69,7 @@ public enum libvlc_event_e {
     private static final Map<Integer, libvlc_event_e> INT_MAP = new HashMap<>();
 
     static {
-        for(libvlc_event_e event : libvlc_event_e.values()) {
+        for(final libvlc_event_e event: libvlc_event_e.values()) {
             INT_MAP.put(event.intValue, event);
         }
     }

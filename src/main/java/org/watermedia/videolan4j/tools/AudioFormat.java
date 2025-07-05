@@ -106,6 +106,6 @@ public enum AudioFormat {
     }
 
     public int calculateBufferSize(int sampleCount) {
-        return sampleCount * channelCount * bitsPerSample / 8;
+        return sampleCount * this.channelCount * (this.bitsPerSample / 8);
     }
 }

@@ -52,12 +52,12 @@ public final class NativeDiscovery {
         }
 
         // iterate providers
-        for (IProvider provider: getProviders()) {
+        for (final IProvider provider: getProviders()) {
             LOGGER.info(IT, "Searching using '{}'", provider.name());
 
             // iterate all directories
-            for (String d: provider.directories()) {
-                String directory = start$searchPath(env, d);
+            for (final String d: provider.directories()) {
+                final String directory = start$searchPath(env, d);
 
                 // keep searching
                 if (directory == null) continue;
@@ -104,13 +104,13 @@ public final class NativeDiscovery {
         for (final File child: rootFiles) {
             if (child.isDirectory()) {
                 if (child.getName().toLowerCase().contains("vlc") || child.getName().toLowerCase().contains("bin") || child.getName().toLowerCase().contains("lib")) {
-                    String r = start$searchPath(env, child.getAbsolutePath());
+                    final String r = start$searchPath(env, child.getAbsolutePath());
                     if (r != null) return r;
                 }
                 continue; // ignore dirs
             }
-            for (Pattern pattern: patterns) {
-                Matcher matcher = pattern.matcher(child.getName());
+            for (final Pattern pattern: patterns) {
+                final Matcher matcher = pattern.matcher(child.getName());
                 if (matcher.matches()) {
                     matches.add(pattern.pattern());
                     if (matches.size() == patterns.length) {
@@ -124,24 +124,24 @@ public final class NativeDiscovery {
         return null;
     }
 
-    private static boolean setSearchPath(Environment env, String path) {
+    private static boolean setSearchPath(final Environment env, final String path) {
         NativeLibrary.addSearchPath(VideoLan4J.LIBVLC_NAME, path);
         // MAC WORKAROUND: PRELOADS VLCCore
         if (env == Environment.MACOS) {
             NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
             NativeLibrary.getInstance(VideoLan4J.LIBVLCCORE_NAME);
         }
-        String pluginPath = System.getenv(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME);
+        final String pluginPath = System.getenv(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME);
         if (pluginPath == null || pluginPath.isEmpty()) {
             return setPluginPath(env, path);
         }
         return true;
     }
 
-    private static boolean setPluginPath(Environment env, String path) {
-        File f = new File(path);
-        for (String pluginsPath: env.getPluginPaths()) {
-            File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile().getAbsoluteFile();
+    private static boolean setPluginPath(final Environment env, final String path) {
+        final File f = new File(path);
+        for (final String pluginsPath: env.getPluginPaths()) {
+            final File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile().getAbsoluteFile();
             if (p.exists() && p.isDirectory() && p.canRead() && p.canExecute()) {
                 LOGGER.info(IT, "Setting plugins path to '{}'", p.toString());
                 return env.setVar(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME, p.toString());
@@ -156,7 +156,7 @@ public final class NativeDiscovery {
 
     private static boolean testInstance() {
         try {
-            libvlc_instance_t instance = VideoLan4J.createInstance(
+            final libvlc_instance_t instance = VideoLan4J.createInstance(
                     "--no-quiet",
                     "--log-verbose=3",
                     "--file-logging",
@@ -172,7 +172,7 @@ public final class NativeDiscovery {
             if (VideoLan4J.isLibSupported()) {
                 return true;
             }
-        } catch (Error e) {
+        } catch (final Error e) {
             LOGGER.error(IT, "Failed to attempt create VLC instance", e);
         }
         return false;
@@ -182,28 +182,28 @@ public final class NativeDiscovery {
     private static boolean testCleanup() {
         try {
             if (jnaSearchPaths == null) {
-                Field searchPaths = NativeLibrary.class.getDeclaredField("searchPaths");
+                final Field searchPaths = NativeLibrary.class.getDeclaredField("searchPaths");
                 searchPaths.setAccessible(true);
                 jnaSearchPaths = (Map<String, List<String>>) searchPaths.get(null);
             }
             if (jnaLibraries == null) {
-                Field libraries = NativeLibrary.class.getDeclaredField("libraries");
+                final Field libraries = NativeLibrary.class.getDeclaredField("libraries");
                 libraries.setAccessible(true);
                 jnaLibraries = (Map<String, Reference<NativeLibrary>>) libraries.get(null);
             }
             return true;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.error(IT, "Failed to clean JNA search paths, search must be stopped!", e);
         }
         return false;
     }
 
     private static List<IProvider> getProviders() {
-        Iterator<IProvider> i = PROVIDERS.iterator();
-        List<IProvider> result = new ArrayList<>();
+        final Iterator<IProvider> i = PROVIDERS.iterator();
+        final List<IProvider> result = new ArrayList<>();
 
         while (i.hasNext()) {
-            IProvider e = i.next();
+            final IProvider e = i.next();
             if (e.supported()) result.add(e);
         }
 
@@ -221,7 +221,7 @@ public final class NativeDiscovery {
         private final boolean executable;
         private final boolean hidden;
 
-        public DebugDirectory(File file) {
+        public DebugDirectory(final File file) {
             this.path = file.toPath().toString();
             this.exists = file.exists();
             this.directory = file.isDirectory();
@@ -233,12 +233,12 @@ public final class NativeDiscovery {
         @Override
         public String toString() {
             return "DebugDirectory{" +
-                    "path='" + path + '\'' +
-                    ", exists=" + exists +
-                    ", directory=" + directory +
-                    ", readable=" + readable +
-                    ", executable=" + executable +
-                    ", hidden=" + hidden +
+                    "path='" + this.path + '\'' +
+                    ", exists=" + this.exists +
+                    ", directory=" + this.directory +
+                    ", readable=" + this.readable +
+                    ", executable=" + this.executable +
+                    ", hidden=" + this.hidden +
                     '}';
         }
     }

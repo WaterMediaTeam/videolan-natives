@@ -68,9 +68,6 @@ public enum Environment {
      * Sets an environment var, implementation might varies depending the OS
      */
     public boolean setVar(String k, String v) {
-        switch (this) {
-            case WINDOWS: return LibC.INSTANCE._putenv(k + "=" + v) == 0;
-            default: return LibC.INSTANCE.setenv(k, v, 1) == 0;
-        }
+        return LibC.setEnv(k, v, 1) == 0;
     }
 }

@@ -43,7 +43,7 @@ public class size_t extends IntegerType {
         }
 
         public size_t getValue() {
-            Pointer pointer = getPointer();
+            final Pointer pointer = this.getPointer();
             return new size_t(Native.SIZE_T_SIZE == 8 ? pointer.getLong(0) : pointer.getInt(0));
         }
     }

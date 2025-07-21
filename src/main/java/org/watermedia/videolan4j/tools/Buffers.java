@@ -41,7 +41,8 @@ public class Buffers {
     public static ByteBuffer alloc(int size) {
         ByteBuffer buffer = BUFFER_ALLOCATOR.apply(size);
         if (!isAligned(address(buffer))) {
-            LOGGER.warn(IT, "Buffer address {} with size {} is unalighed, this might cause performance issues", address(buffer), size);
+            LOGGER.warn(IT, "Buffer address {} with size {} is unaligned, forcing and alignment", address(buffer), size);
+            buffer = align(buffer, address(buffer), size);
         }
         return buffer;
     }
@@ -70,14 +71,35 @@ public class Buffers {
      * @return byte buffer instance
      */
     static ByteBuffer alloc1(int size) {
-        Buffer buffer = ByteBuffer.allocateDirect(size + VideoLan4J.LIBVLC_BUFFER_ALIGNMENT);
-        long address = address(buffer);
+        final ByteBuffer buffer = ByteBuffer.allocateDirect(size + VideoLan4J.LIBVLC_BUFFER_ALIGNMENT);
+        final long address = address(buffer);
+        return align(buffer, address, size);
+    }
+
+    /**
+     * Validates if the created ByteBuffer is properly aligned
+     * @param address buffer address
+     * @return true if is properly aligned
+     */
+    public static boolean isAligned(long address) {
+        return (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)) == 0;
+    }
+
+    /**
+     * Get the address of the direct buffer.
+     * <p>
+     * This method is unsafe and should be used with caution.
+     *
+     * @param buffer buffer to get
+     * @return memory address pointer
+     */
+    public static ByteBuffer align(ByteBuffer buffer, long address, int size) {
         if (!isAligned(address)) {
-            int newPosition = (int) (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)));
+            final int newPosition = (int) (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)));
             buffer.position(newPosition);
             size += newPosition;
         }
-        ByteBuffer result = (ByteBuffer) buffer.limit(size);
+        final ByteBuffer result = buffer.limit(size);
         return result.slice().order(ByteOrder.nativeOrder());
     }
 
@@ -92,15 +114,6 @@ public class Buffers {
     }
 
     /**
-     * Validates if the created ByteBuffer is properly aligned
-     * @param address buffer address
-     * @return true if is properly aligned
-     */
-    public static boolean isAligned(long address) {
-        return (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)) == 0;
-    }
-
-    /**
      * Get the address of the direct buffer.
      *
      * @param buffer buffer to get
@@ -112,11 +125,11 @@ public class Buffers {
 
     static {
         try {
-            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+            final Field field = Unsafe.class.getDeclaredField("theUnsafe");
             field.setAccessible(true);
             UNSAFE = (Unsafe) field.get(null);
             ADDRESS_FIELD_OFFSET = UNSAFE.objectFieldOffset(Buffer.class.getDeclaredField("address"));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
     }

@@ -1,22 +1,3 @@
-/*
- * This file is part of VLCJ.
- *
- * VLCJ is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * VLCJ is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with VLCJ. If not, see <http://www.gnu.org/licenses/>.
- *
- * Copyright 2009-2019 Caprica Software Limited.
- */
-
 package org.watermedia.videolan4j.binding.lib;
 
 import java.nio.ByteBuffer;
@@ -28,13 +9,9 @@ import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 
 /**
- * Minimal interface to the standard "C" library.
+ * Minimal "C" library binding class.
  */
 public interface LibC extends Library {
-
-    /**
-     * Native library instance.
-     */
     LibC INSTANCE = Native.loadLibrary((Platform.isWindows() ? "msvcrt" : "c"), LibC.class);
 
     /**
@@ -54,7 +31,9 @@ public interface LibC extends Library {
      * @param args format arguments
      * @return length of the formatted string, which may exceed the capacity of the buffer, or less than zero on error
      */
-    int vsnprintf(ByteBuffer str, int size, String format, Pointer args);
+    static int printf(ByteBuffer str, int size, String format, Pointer args) {
+        return INSTANCE.vsnprintf(str, size, format, args);
+    }
 
     /**
      * Locks (pins) parts of virtual address space into RAM so it can not be swapped out.
@@ -63,7 +42,13 @@ public interface LibC extends Library {
      * @param length length
      * @return 0 if successful; -1 if not, setting <code>errno</code> to an error code
      */
-    int mlock(Pointer addr, NativeLong length);
+    static int memoryLock(Pointer addr, long length) {
+        if (Platform.isWindows()) {
+            // Windows does not support mlock, use VirtualLock instead
+            return Kernel32.memoryLock(addr, length);
+        }
+        return INSTANCE.mlock(addr, new NativeLong(length));
+    }
 
     /**
      * Unlock previously locked memory.
@@ -72,21 +57,36 @@ public interface LibC extends Library {
      * @param length length
      * @return 0 if successful; -1 if not, setting <code>errno</code> to an error code
      */
-    int munlock(Pointer addr, NativeLong length);
+    static int memoryUnlock(Pointer addr, long length) {
+        if (Platform.isWindows()) {
+            // Windows does not support munlock, use VirtualUnlock instead
+            return Kernel32.memoryUnlock(addr, length);
+        }
+        return INSTANCE.munlock(addr, new NativeLong(length));
+    }
 
     /**
-     * Change or add an evironment variable.
+     * Change or add an environment variable.
      * <p>
      * The value strings are copied (natively).
      * <p>
-     * <em>Not available on Windows.</em>
+     * <p>
+     * Note that after setting an environment variable, it will <em>not</em> show up via
+     * System#getenv even if it was successfully set.
+     * <p>
      *
      * @param name name of environment variable
      * @param value value of the environment variable
      * @param overwrite non-zero to replace any existing value
      * @return 0 if successful; -1 if not, setting <code>errno</code> to an error code
      */
-    int setenv(String name, String value, int overwrite);
+    static int setEnv(String name, String value, int overwrite) {
+        if (Platform.isWindows()) {
+            // Windows does not support setenv, use _putenv instead
+            return INSTANCE._putenv(name + "=" + value);
+        }
+        return INSTANCE.setenv(name, value, overwrite);
+    }
 
     /**
      * Unset an environment variable.
@@ -96,7 +96,13 @@ public interface LibC extends Library {
      * @param name name of environment variable
      * @return 0 if successful; -1 if not, setting <code>errno</code> to an error code
      */
-    int unsetenv(String name);
+    static int unsetEnv(String name) {
+        if (Platform.isWindows()) {
+            // Windows does not support unsetenv, use _putenv instead
+            return INSTANCE._putenv(name + "=");
+        }
+        return INSTANCE.unsetenv(name);
+    }
 
     /**
      * Get the current process id.
@@ -105,20 +111,16 @@ public interface LibC extends Library {
      *
      * @return process id
      */
-    int getpid();
+    static int getProcessId() {
+        return INSTANCE.getpid();
+    }
 
-    /**
-     * Closest Windows equivalent to {@link #setenv(String, String, int)}.
-     * <p>
-     * Note that after setting an environment variable, it will <em>not</em> show up via
-     * System#getenv even if it was successfully set.
-     * <p>
-     * Use with case, it is not guaranteed to be thread-safe.
-     * <p>
-     * <em>Only available on Windows.</em>
-     *
-     * @param envstring variable and value to set, in the format "variable=value", without quotes.
-     * @return zero on success, non-zero on error
-     */
+    // INTERFACE METHODS
+    int vsnprintf(ByteBuffer str, int size, String format, Pointer args);
+    int mlock(Pointer addr, NativeLong length);
+    int munlock(Pointer addr, NativeLong length);
+    int setenv(String name, String value, int overwrite);
+    int unsetenv(String name);
+    int getpid();
     int _putenv(String envstring);
 }

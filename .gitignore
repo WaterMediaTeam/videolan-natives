@@ -11,9 +11,10 @@ buildNumber.properties
 
 # idea
 build
+out
 .idea
 .gradle
-buildjars
+builtjars
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar

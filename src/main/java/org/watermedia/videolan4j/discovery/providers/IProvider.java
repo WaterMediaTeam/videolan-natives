@@ -7,7 +7,7 @@ public interface IProvider {
      * @return Name of the provider
      */
     default String name() {
-        return getClass().getSimpleName();
+        return this.getClass().getSimpleName();
     }
 
     /**

@@ -12,7 +12,7 @@ import com.sun.jna.Pointer;
  * Minimal "C" library binding class.
  */
 public interface LibC extends Library {
-    LibC INSTANCE = Native.loadLibrary((Platform.isWindows() ? "msvcrt" : "c"), LibC.class);
+    LibC INSTANCE = Native.load((Platform.isWindows() ? "msvcrt" : "c"), LibC.class);
 
     /**
      * Format a string with a variable arguments list into a fixed size buffer.

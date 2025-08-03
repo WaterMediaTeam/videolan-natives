@@ -24,11 +24,11 @@ public class Buffers {
     private static Function<Integer, ByteBuffer> BUFFER_ALLOCATOR = Buffers::alloc1;
     private static Consumer<ByteBuffer> BUFFER_DEALLOCATOR = Buffers::dealloc1;
 
-    public static void setBufferAllocator(Function<Integer, ByteBuffer> bufferAllocator) {
+    public static void setBufferAllocator(final Function<Integer, ByteBuffer> bufferAllocator) {
         BUFFER_ALLOCATOR = bufferAllocator;
     }
 
-    public static void setBufferDeallocator(Consumer<ByteBuffer> bufferDeallocator) {
+    public static void setBufferDeallocator(final Consumer<ByteBuffer> bufferDeallocator) {
         BUFFER_DEALLOCATOR = bufferDeallocator;
     }
 
@@ -38,7 +38,7 @@ public class Buffers {
      * @param size required size for the buffer
      * @return aligned byte buffer
      */
-    public static ByteBuffer alloc(int size) {
+    public static ByteBuffer alloc(final int size) {
         ByteBuffer buffer = BUFFER_ALLOCATOR.apply(size);
         if (!isAligned(address(buffer))) {
             LOGGER.warn(IT, "Buffer address {} with size {} is unaligned, forcing and alignment", address(buffer), size);
@@ -52,7 +52,7 @@ public class Buffers {
      *
      * @param buffer buffer to release
      */
-    public static void dealloc(ByteBuffer buffer) {
+    public static void dealloc(final ByteBuffer buffer) {
         BUFFER_DEALLOCATOR.accept(buffer);
     }
 
@@ -61,7 +61,7 @@ public class Buffers {
      * <p>Method is NO-OP but is reserved for future usages</p>
      * @param buffer buffer to deallocate
      */
-    static void dealloc1(ByteBuffer buffer) {
+    static void dealloc1(final ByteBuffer buffer) {
 
     }
 
@@ -70,7 +70,7 @@ public class Buffers {
      * @param size buffer size
      * @return byte buffer instance
      */
-    static ByteBuffer alloc1(int size) {
+    static ByteBuffer alloc1(final int size) {
         final ByteBuffer buffer = ByteBuffer.allocateDirect(size + VideoLan4J.LIBVLC_BUFFER_ALIGNMENT);
         final long address = address(buffer);
         return align(buffer, address, size);
@@ -81,7 +81,7 @@ public class Buffers {
      * @param address buffer address
      * @return true if is properly aligned
      */
-    public static boolean isAligned(long address) {
+    public static boolean isAligned(final long address) {
         return (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)) == 0;
     }
 
@@ -93,7 +93,7 @@ public class Buffers {
      * @param buffer buffer to get
      * @return memory address pointer
      */
-    public static ByteBuffer align(ByteBuffer buffer, long address, int size) {
+    public static ByteBuffer align(final ByteBuffer buffer, final long address, int size) {
         if (!isAligned(address)) {
             final int newPosition = (int) (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - (address & (VideoLan4J.LIBVLC_BUFFER_ALIGNMENT - 1)));
             buffer.position(newPosition);
@@ -109,7 +109,7 @@ public class Buffers {
      * @param buffer buffer to get
      * @return memory address pointer
      */
-    public static long address(ByteBuffer buffer) {
+    public static long address(final ByteBuffer buffer) {
         return UNSAFE.getLong(buffer, ADDRESS_FIELD_OFFSET);
     }
 
@@ -119,7 +119,7 @@ public class Buffers {
      * @param buffer buffer to get
      * @return memory address pointer
      */
-    public static long address(Buffer buffer) {
+    public static long address(final Buffer buffer) {
         return UNSAFE.getLong(buffer, ADDRESS_FIELD_OFFSET);
     }
 

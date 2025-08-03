@@ -1,6 +1,7 @@
 package org.watermedia.videolan4j.tools;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
@@ -22,6 +23,14 @@ public class Tools {
             return symLink;
         } catch (Exception ignored) {}
         return path.toFile();
+    }
+
+    public static <T> T[] concat(T[] array, T[] array2) {
+        final int length = array.length + array2.length;
+        final T[] result = (T[]) Array.newInstance(array.getClass().getComponentType(), length);
+        System.arraycopy(array, 0, result, 0, array.length);
+        System.arraycopy(array2, 0, result, array.length, array2.length);
+        return result;
     }
 
     public static <T> T[] toArray(T... array) {

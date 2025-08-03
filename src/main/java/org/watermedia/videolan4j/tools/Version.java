@@ -22,7 +22,7 @@ public class Version implements Comparable<Version> {
      */
     public Version(final String version) {
         this.version = version;
-        Matcher matcher = VERSION_PATTERN.matcher(version);
+        final Matcher matcher = VERSION_PATTERN.matcher(version);
         if (matcher.matches()) {
             this.major = Integer.parseInt(matcher.group(1));
             this.minor = Integer.parseInt(matcher.group(2));
@@ -42,8 +42,8 @@ public class Version implements Comparable<Version> {
      * @param required required version
      * @return <code>true</code> if this version is at least (equal to or greater than) the required version
      */
-    public boolean atLeast(Version required) {
-        return compareTo(required) >= 0;
+    public boolean atLeast(final Version required) {
+        return this.compareTo(required) >= 0;
     }
 
     /**
@@ -52,18 +52,18 @@ public class Version implements Comparable<Version> {
      * @param min required version
      * @return <code>true</code> if this version is at least (equal to or greater than) the required version
      */
-    public boolean inRange(Version min, Version max) {
-        return compareTo(min) >= 0 && compareTo(max) < 0;
+    public boolean inRange(final Version min, final Version max) {
+        return this.compareTo(min) >= 0 && this.compareTo(max) < 0;
     }
 
 
     @Override
-    public int compareTo(Version o) {
-        int delta = major - o.major;
+    public int compareTo(final Version o) {
+        int delta = this.major - o.major;
         if (delta == 0) {
-            delta = minor - o.minor;
+            delta = this.minor - o.minor;
             if (delta == 0) {
-                delta = revision - o.revision;
+                delta = this.revision - o.revision;
             }
         }
         return delta;
@@ -71,6 +71,6 @@ public class Version implements Comparable<Version> {
 
     @Override
     public String toString() {
-        return version;
+        return this.version;
     }
 }

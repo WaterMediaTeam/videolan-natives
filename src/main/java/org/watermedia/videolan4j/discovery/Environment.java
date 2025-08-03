@@ -51,23 +51,23 @@ public enum Environment {
 
     final Pattern[] filePatterns;
     final String[] pluginPaths;
-    Environment(Pattern[] filePatterns, String... pluginPaths) {
+    Environment(final Pattern[] filePatterns, final String... pluginPaths) {
         this.filePatterns = filePatterns;
         this.pluginPaths = pluginPaths;
     }
 
     public Pattern[] getFilePatterns() {
-        return filePatterns;
+        return this.filePatterns;
     }
 
     public String[] getPluginPaths() {
-        return pluginPaths;
+        return this.pluginPaths;
     }
 
     /**
      * Sets an environment var, implementation might varies depending the OS
      */
-    public boolean setVar(String k, String v) {
+    public boolean setVar(final String k, final String v) {
         return LibC.setEnv(k, v, 1) == 0;
     }
 }

@@ -1,6 +1,7 @@
 package org.watermedia.videolan4j.discovery.providers;
 
 import com.sun.jna.Platform;
+import org.watermedia.videolan4j.tools.Tools;
 
 import java.io.File;
 
@@ -17,7 +18,8 @@ public class LinuxProvider implements IProvider {
 
     @Override
     public String[] directories() {
-        return new String[] {
+        final String[] ldPaths = System.getenv("LD_LIBRARY_PATH").split(File.pathSeparator);
+        final String[] genericPaths = new String[] {
                 "/usr/lib",
                 "/usr/lib64",
                 "/usr/lib/i386-linux-gnu",
@@ -27,8 +29,8 @@ public class LinuxProvider implements IProvider {
                 "/usr/local/lib",
                 "/usr/local/lib64",
                 "/bin",
-                "/lib",
-                System.getenv("LD_LIBRARY_PATH")
+                "/lib"
         };
+        return Tools.concat(ldPaths, genericPaths);
     }
 }

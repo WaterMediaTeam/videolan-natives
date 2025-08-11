@@ -23,7 +23,7 @@ public class SystemProvider implements IProvider {
             final String[] paths = path.split(File.pathSeparator);
             for (int i = 0; i < paths.length; i++) {
                 if (paths[i].endsWith(File.separatorChar + "bin") || paths[i].endsWith(File.pathSeparator + "lib")) {
-                    paths[i] = paths[i].substring(File.pathSeparator.length() + 3);
+                    paths[i] = paths[i].substring(0, paths[i].length() - File.pathSeparator.length() + 3);
                 }
             }
             return paths;

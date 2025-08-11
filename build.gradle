@@ -10,7 +10,7 @@ base {
 }
 
 test {
-//    useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 java {

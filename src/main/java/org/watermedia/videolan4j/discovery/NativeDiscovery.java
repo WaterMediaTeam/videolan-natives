@@ -193,6 +193,7 @@ public final class NativeDiscovery {
 
             if (VideoLan4J.isLibSupported()) {
                 LOGGER.info(IT, "VLC test instance created successfully");
+                return true;
             } else {
                 LOGGER.error(IT, "VLC {} is not supported, supported versions are between {} and {}", VideoLan4J.getLibVersion(), VideoLan4J.LIBVLC_MIN_VERSION, VideoLan4J.LIBVLC_MAX_VERSION);
             }

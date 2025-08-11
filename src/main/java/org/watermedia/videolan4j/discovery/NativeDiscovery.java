@@ -10,7 +10,6 @@ import org.watermedia.videolan4j.tools.Tools;
 
 import java.io.File;
 import java.lang.ref.Reference;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,21 +63,20 @@ public final class NativeDiscovery {
 
                 // on found
                 if (setSearchPath(env, directory)) {
+                    LOGGER.info(IT, "Founded VLC binaries in '{}' using '{}', running test...", directory, provider.name());
                     if (testInstance()) {
                         discoveredPath = directory;
                         discovered = true;
-                        LOGGER.info(IT, "Founded VLC {} in '{}' using '{}'", VideoLan4J.getLibVersion(), directory, provider.name());
+                        LOGGER.info(IT, "Successfully loaded VLC {} in '{}' using '{}'", VideoLan4J.getLibVersion(), directory, provider.name());
                         return true;
                     // Explicit failed to load
                     } else {
                         LOGGER.error(IT, "Failed to load VLC in '{}' using '{}'", directory, provider.name());
-                        if (testCleanup()) continue;
                         break;
                     }
                 // Failed to set the search path... missing plugins' path?
                 } else {
                     LOGGER.error(IT, "Failed to set search path for VLC in '{}' using '{}'", directory, provider.name());
-                    if (testCleanup()) continue;
                     break;
                 }
             }
@@ -103,7 +101,7 @@ public final class NativeDiscovery {
 
         for (final File child: rootFiles) {
             if (child.isDirectory()) {
-                if (child.getName().toLowerCase().contains("vlc") || child.getName().toLowerCase().contains("bin") || child.getName().toLowerCase().contains("lib")) {
+                if (child.getName().toLowerCase().contains("vlc") /* weak check */ || child.getName().toLowerCase().contains("bin") || child.getName().toLowerCase().contains("lib")) {
                     final String r = start$searchPath(env, child.getAbsolutePath());
                     if (r != null) return r;
                 }
@@ -126,21 +124,25 @@ public final class NativeDiscovery {
 
     private static boolean setSearchPath(final Environment env, final String path) {
         NativeLibrary.addSearchPath(VideoLan4J.LIBVLC_NAME, path);
-        // MAC WORKAROUND: PRELOADS VLCCore
+        NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
+
+        final boolean success = setPluginPath(env, path);
+        // on macOS, we need to preload vlccore, otherwise it fails to load ALWAYS
         if (env == Environment.MACOS) {
-            NativeLibrary.addSearchPath(VideoLan4J.LIBVLCCORE_NAME, path);
+            LOGGER.debug(IT, "Running on MACOS, preloading vlccore");
             NativeLibrary.getInstance(VideoLan4J.LIBVLCCORE_NAME);
         }
-        final String pluginPath = System.getenv(VideoLan4J.LIBVLC_PLUGIN_ENV_NAME);
-        if (pluginPath == null || pluginPath.isEmpty()) {
-            return setPluginPath(env, path);
-        }
-        return true;
+        return success;
     }
 
     private static boolean setPluginPath(final Environment env, final String path) {
         final File f = new File(path);
-        for (final String pluginsPath: env.getPluginPaths()) {
+        final String[] pluginsPaths = env.getPluginPaths();
+        if (pluginsPaths == null || pluginsPaths.length == 0) {
+            LOGGER.error(IT, "No plugins paths defined for environment '{}'", env.name());
+            return false;
+        }
+        for (final String pluginsPath: pluginsPaths) {
             final File p = f.toPath().resolve(pluginsPath).toAbsolutePath().toFile().getAbsoluteFile();
             if (p.exists() && p.isDirectory() && p.canRead() && p.canExecute()) {
                 LOGGER.info(IT, "Setting plugins path to '{}'", p.toString());
@@ -164,39 +166,42 @@ public final class NativeDiscovery {
                     "--verbose=2"
             );
 
-            if (instance == null)
+            if (instance == null) {
+                LOGGER.error(IT, "Failed to create VLC test instance, printing log file");
+                final File logFile = new File("logs/videolan-discovery.log");
+                if (logFile.exists() && logFile.canRead()) {
+                    final String logContent = Tools.readStringSafe(logFile.toPath());
+                    if (logContent != null && !logContent.isEmpty()) {
+                        final String[] lines = logContent.split("\n");
+                        LOGGER.error(IT, "VLC log file content START ------------");
+                        for (final String line: lines) {
+                            LOGGER.error(IT, line);
+                        }
+                        LOGGER.error(IT, "VLC log file content END ------------");
+                    } else {
+                        LOGGER.error(IT, "VLC log file is empty or cannot be read, {}", new DebugDirectory(logFile));
+                    }
+
+                } else {
+                    LOGGER.error(IT, "VLC log file doesn't exist or cannot be read, {}", new DebugDirectory(logFile));
+                }
+                LOGGER.error(IT, "VLC test instance is null, cannot continue discovery");
                 return false;
+            }
 
             VideoLan4J.releaseInstance(instance);
 
             if (VideoLan4J.isLibSupported()) {
-                return true;
+                LOGGER.info(IT, "VLC test instance created successfully");
+            } else {
+                LOGGER.error(IT, "VLC {} is not supported, supported versions are between {} and {}", VideoLan4J.getLibVersion(), VideoLan4J.LIBVLC_MIN_VERSION, VideoLan4J.LIBVLC_MAX_VERSION);
             }
         } catch (final Error e) {
-            LOGGER.error(IT, "Failed to attempt create VLC instance", e);
+            LOGGER.error(IT, "Failed to create and test VLC instance", e);
         }
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    private static boolean testCleanup() {
-        try {
-            if (jnaSearchPaths == null) {
-                final Field searchPaths = NativeLibrary.class.getDeclaredField("searchPaths");
-                searchPaths.setAccessible(true);
-                jnaSearchPaths = (Map<String, List<String>>) searchPaths.get(null);
-            }
-            if (jnaLibraries == null) {
-                final Field libraries = NativeLibrary.class.getDeclaredField("libraries");
-                libraries.setAccessible(true);
-                jnaLibraries = (Map<String, Reference<NativeLibrary>>) libraries.get(null);
-            }
-            return true;
-        } catch (final Exception e) {
-            LOGGER.error(IT, "Failed to clean JNA search paths, search must be stopped!", e);
-        }
-        return false;
-    }
 
     private static List<IProvider> getProviders() {
         final Iterator<IProvider> i = PROVIDERS.iterator();

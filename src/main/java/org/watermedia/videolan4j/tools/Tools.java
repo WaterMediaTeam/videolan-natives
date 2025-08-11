@@ -33,6 +33,15 @@ public class Tools {
         return result;
     }
 
+    public static String readStringSafe(Path path) {
+        try {
+            return Files.readString(path);
+        } catch (final Exception e) {
+            LOGGER.error("Failed to read file at '{}'", path, e);
+            return null;
+        }
+    }
+
     public static <T> T[] toArray(T... array) {
         return array;
     }

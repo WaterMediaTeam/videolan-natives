@@ -17,7 +17,7 @@ public class MacProvider implements IProvider {
     public String[] directories() {
         return new String[] {
                 "/Applications/VLC.app/Contents/Frameworks",
-                "/Applications/VLC.app/Contents/MacOS/lib"
+                "/Applications/VLC.app/Contents/MacOS/"
         };
     }
 }

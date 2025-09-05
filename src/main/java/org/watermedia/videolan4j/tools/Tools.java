@@ -26,6 +26,14 @@ public class Tools {
     }
 
     public static <T> T[] concat(T[] array, T[] array2) {
+        if (array2.length == 0) {
+            return array;
+        }
+
+        if (array.length == 0) {
+            return array2;
+        }
+
         final int length = array.length + array2.length;
         final T[] result = (T[]) Array.newInstance(array.getClass().getComponentType(), length);
         System.arraycopy(array, 0, result, 0, array.length);

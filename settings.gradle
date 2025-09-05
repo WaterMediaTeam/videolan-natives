@@ -5,11 +5,4 @@ pluginManagement {
     }
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.21'
-    }
-}
+rootProject.name = 'videolan-natives'

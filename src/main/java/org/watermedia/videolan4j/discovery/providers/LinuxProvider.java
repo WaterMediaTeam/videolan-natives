@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class LinuxProvider implements IProvider {
+    private static final String LD_LIBRARY_PATHS = System.getenv("LD_LIBRARY_PATH");
+
     @Override
     public boolean supported() {
         return Platform.isLinux();
@@ -21,7 +23,7 @@ public class LinuxProvider implements IProvider {
 
     @Override
     public String[] directories() {
-        final String[] ldPaths = System.getenv("LD_LIBRARY_PATH").split(File.pathSeparator);
+        final String[] ldPaths = LD_LIBRARY_PATHS != null ? LD_LIBRARY_PATHS.split(File.pathSeparator) : new String[0];
         final String[] genericPaths = new String[] {
                 "/usr/lib",
                 "/usr/lib64",

@@ -9,12 +9,12 @@ public enum Chroma {
      */
     RGBA {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width * 4 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
@@ -24,12 +24,12 @@ public enum Chroma {
      */
     RV32 {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width * 4 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
@@ -40,12 +40,12 @@ public enum Chroma {
      */
     Rv24 {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width * 3 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
@@ -55,12 +55,12 @@ public enum Chroma {
      */
     YUYV {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width * 2 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
@@ -70,12 +70,12 @@ public enum Chroma {
      */
     UYVY {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width * 2 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
@@ -85,36 +85,36 @@ public enum Chroma {
      */
     GRAW {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height };
         }
     },
 
     NV12 {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width, width };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height, height / 2 };
         }
     },
 
     I420 {
         @Override
-        public int[] getPitches(int width) {
+        public int[] getPitches(final int width) {
             return new int[] { width, width / 2, width / 2 };
         }
 
         @Override
-        public int[] getLines(int height) {
+        public int[] getLines(final int height) {
             return new int[] { height, height / 2, height / 2 };
         }
     };

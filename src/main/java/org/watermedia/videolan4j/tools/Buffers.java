@@ -39,11 +39,15 @@ public class Buffers {
      * @return aligned byte buffer
      */
     public static ByteBuffer alloc(final int size) {
-        ByteBuffer buffer = BUFFER_ALLOCATOR.apply(size);
+        ByteBuffer buffer = BUFFER_ALLOCATOR.apply(size + VideoLan4J.LIBVLC_BUFFER_ALIGNMENT);
         if (!isAligned(address(buffer))) {
             LOGGER.warn(IT, "Buffer address {} with size {} is unaligned, forcing and alignment", address(buffer), size);
             buffer = align(buffer, address(buffer), size);
+        } else {
+            final ByteBuffer result = buffer.limit(size); // DEAD BYTES?
+            buffer = result.slice().order(ByteOrder.nativeOrder());
         }
+        LOGGER.debug(IT, "Allocated buffer with address {} and size {}", address(buffer), size);
         return buffer;
     }
 

@@ -17,8 +17,8 @@ import org.watermedia.videolan4j.binding.lib.LibVlc;
 import java.io.File;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class VideoLan4J {
     public static final Logger LOGGER = LogManager.getLogger("VideoLan4J");
@@ -129,7 +129,7 @@ public class VideoLan4J {
      *
      * @param bufferAllocator function implementation
      */
-    public static void setBufferAllocator(Function<Integer, ByteBuffer> bufferAllocator) {
+    public static void setBufferAllocator(BiFunction<Integer, Integer, ByteBuffer> bufferAllocator) {
         Buffers.setBufferAllocator(bufferAllocator);
     }
 

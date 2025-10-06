@@ -51,6 +51,7 @@ public enum Environment {
 
     final Pattern[] filePatterns;
     final String[] pluginPaths;
+
     Environment(final Pattern[] filePatterns, final String... pluginPaths) {
         this.filePatterns = filePatterns;
         this.pluginPaths = pluginPaths;

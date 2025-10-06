@@ -4,6 +4,9 @@ import com.sun.jna.Platform;
 import org.watermedia.videolan4j.tools.Tools;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class LinuxProvider implements IProvider {
     private static final String LD_LIBRARY_PATHS = System.getenv("LD_LIBRARY_PATH");

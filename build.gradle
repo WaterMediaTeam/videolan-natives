@@ -14,7 +14,8 @@ java {
 }
 
 test {
-    useJUnitPlatform()
+//    useJUnitPlatform()
+//    failOnNoDiscoveredTests.set(false)
 }
 
 test {

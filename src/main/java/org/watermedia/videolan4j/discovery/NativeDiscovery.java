@@ -19,8 +19,6 @@ import static org.watermedia.videolan4j.VideoLan4J.LOGGER;
 public final class NativeDiscovery {
     private static final Marker IT = MarkerManager.getMarker(NativeDiscovery.class.getSimpleName());
     private static final ServiceLoader<IProvider> PROVIDERS = ServiceLoader.load(IProvider.class);
-    private static Map<String, Reference<NativeLibrary>> jnaLibraries;
-    private static Map<String, List<String>> jnaSearchPaths;
 
     private static boolean discovered = false;
     private static boolean attempted = false;

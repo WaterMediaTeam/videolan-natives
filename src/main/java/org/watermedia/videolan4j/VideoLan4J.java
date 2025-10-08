@@ -33,14 +33,31 @@ public class VideoLan4J {
 
     public static final String VLC4J_USER_DISCOVERY_PATH = System.getProperty("vlc4j.userDiscoveryPath");
 
-    public static synchronized boolean load() { return NativeDiscovery.start(); }
-    public static boolean isDiscovered() { return NativeDiscovery.discovered(); }
+    public static libvlc_instance_t DEFAULT_INSTANCE;
+
+    public static boolean isDiscovered() { return NativeDiscovery.discovered() && DEFAULT_INSTANCE != null; }
     public static String discoveryPath() { return NativeDiscovery.discoveryPath(); }
+
+
+    public static synchronized boolean load(String... defaultArgs) {
+        boolean loaded = NativeDiscovery.start();
+
+        if (loaded && DEFAULT_INSTANCE == null) {
+            DEFAULT_INSTANCE = createInstance(defaultArgs);
+            if (DEFAULT_INSTANCE == null) {
+                LOGGER.error("Failed to create default libvlc instance");
+                loaded = false;
+            }
+        }
+
+        return loaded;
+    }
 
     /**
      * Create a new libvlc instance with the given arguments.
      * <p>
      * The arguments are passed to the libvlc instance, which can be used to configure it.
+     * </p>
      *
      * @param args command-line-type arguments
      * @return a new libvlc instance
@@ -58,14 +75,21 @@ public class VideoLan4J {
 
     /**
      * Create a new media player instance for the given libvlc instance.
-     * <p>
-     * The media player can be used to play media files, streams, etc.
      *
      * @param instance the libvlc instance to create the media player for
      * @return a new media player instance
      */
     public static libvlc_media_player_t createMediaPlayer(libvlc_instance_t instance) {
         return LibVlc.libvlc_media_player_new(instance);
+    }
+
+    /**
+     * Create a new media player instance for the default internal libvlc instance
+     *
+     * @return a new media player instance
+     */
+    public static libvlc_media_player_t createMediaPlayer() {
+        return LibVlc.libvlc_media_player_new(DEFAULT_INSTANCE);
     }
 
     /**
@@ -82,7 +106,7 @@ public class VideoLan4J {
     }
 
     /**
-     * Encodes {@link URI} into s MRL string<br>
+     * Encodes {@link URI} into a MRL string<br>
      * The {@link File#toString()} method returns the <code>file:///</code> protocol just with one slash instead of three.
      * Method does a special handling for that
      */
@@ -97,6 +121,24 @@ public class VideoLan4J {
      */
     public static libvlc_media_t createMediaInstance(libvlc_instance_t vlc, File url) {
         return LibVlc.libvlc_media_new_path(vlc, url.toString());
+    }
+
+    /**
+     * Encodes {@link URI} into a MRL string using the default internal libvlc instance<br>
+     * The {@link File#toString()} method returns the <code>file:///</code> protocol just with one slash instead of three.
+     * Method does a special handling for that
+     */
+    public static libvlc_media_t createMediaInstance(URI uri) {
+        return uri.getScheme().equals("file")
+                ? LibVlc.libvlc_media_new_path(DEFAULT_INSTANCE, new File(uri.getPath()).toString())
+                : LibVlc.libvlc_media_new_location(DEFAULT_INSTANCE, uri.toString());
+    }
+
+    /**
+     * Encodes {@link File} into a MRL string using the default internal libvlc instance
+     */
+    public static libvlc_media_t createMediaInstance(File url) {
+        return LibVlc.libvlc_media_new_path(DEFAULT_INSTANCE, url.toString());
     }
 
     /**

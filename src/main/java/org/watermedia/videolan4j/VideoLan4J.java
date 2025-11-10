@@ -33,10 +33,14 @@ public class VideoLan4J {
 
     public static final String VLC4J_USER_DISCOVERY_PATH = System.getProperty("vlc4j.userDiscoveryPath");
 
-    public static libvlc_instance_t DEFAULT_INSTANCE;
+    private static libvlc_instance_t DEFAULT_INSTANCE;
 
     public static boolean isDiscovered() { return NativeDiscovery.discovered() && DEFAULT_INSTANCE != null; }
     public static String discoveryPath() { return NativeDiscovery.discoveryPath(); }
+
+    public static libvlc_instance_t getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
 
 
     public static synchronized boolean load(String... defaultArgs) {

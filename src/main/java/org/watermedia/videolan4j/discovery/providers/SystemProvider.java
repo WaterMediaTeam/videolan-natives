@@ -21,11 +21,11 @@ public class SystemProvider implements IProvider {
         if (path != null) {
             // SPECIAL PRE-COMPUTE TO JUMP BACK LIB OR BIN FOLDERS, SO DISCOVERY CAN SEARCH IN BOTH
             final String[] paths = path.split(File.pathSeparator);
-            for (int i = 0; i < paths.length; i++) {
-                if (paths[i].endsWith(File.separatorChar + "bin") || paths[i].endsWith(File.pathSeparator + "lib")) {
-                    paths[i] = paths[i].substring(0, paths[i].length() - File.pathSeparator.length() + 3);
-                }
-            }
+//            for (int i = 0; i < paths.length; i++) {
+//                if (paths[i].endsWith(File.separatorChar + "bin") || paths[i].endsWith(File.pathSeparator + "lib")) {
+//                    paths[i] = paths[i].substring(0, paths[i].length() - 5);
+//                }
+//            }
             return paths;
         } else {
             return new String[0];

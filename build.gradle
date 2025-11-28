@@ -15,7 +15,7 @@ java {
 
 test {
 //    useJUnitPlatform()
-    failOnNoDiscoveredTests.set(false)
+//    failOnNoDiscoveredTests.set(false)
 }
 
 println("Gradle Java: ${JavaVersion.current()}")
